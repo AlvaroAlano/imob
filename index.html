@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apartamento por R$ 5 | Imobiliária Alano</title>
+  <meta name="description" content="Oportunidade única e irrecusável: apartamento exclusivo por apenas R$ 5,00/mês. Aprovação automática para Alexandra." />
+  <meta property="og:title" content="Apartamento Exclusivo por R$ 5,00/mês · Imobiliária Alano" />
+  <meta property="og:description" content="Você pediu um aluguel de R$ 5. Eu achei. (E tem um detalhe especial no final.)" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="img/foto4.jpeg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            cream: '#F7F4EF',
+            ink: '#1A1A1A',
+            gold: {
+              DEFAULT: '#C4A35A',
+              light: '#D4BC7D',
+              dark: '#A68B3D',
+            },
+            charcoal: '#2C2C2C',
+            blush: '#E8D5D0',
+          },
+          animation: {
+            'fade-up': 'fadeUp 0.8s ease-out both',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(24px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-8px)' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .hero-overlay {
+      background:
+        linear-gradient(180deg, rgba(26,26,26,0.45) 0%, rgba(26,26,26,0.72) 55%, rgba(26,26,26,0.92) 100%);
+    }
+    .gold-line {
+      width: 72px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #C4A35A, transparent);
+    }
+    .gallery-card {
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
+    }
+    .gallery-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.18);
+    }
+    .gallery-card img {
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .gallery-card:hover img {
+      transform: scale(1.06);
+    }
+    .cta-glow:hover {
+      box-shadow: 0 0 0 4px rgba(196, 163, 90, 0.28), 0 16px 48px rgba(196, 163, 90, 0.45);
+    }
+    .heart-pulse {
+      animation: heartPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+    /* Lightbox */
+    #lightbox {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #lightbox.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .badge-ribbon {
+      letter-spacing: 0.28em;
+    }
+  </style>
+</head>
+<body class="bg-cream text-ink font-sans antialiased">
+
+  <!-- Header -->
+  <header class="fixed top-0 inset-x-0 z-50 bg-cream/90 backdrop-blur-md border-b border-ink/5">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6 py-4 flex items-center justify-between">
+      <a href="#" class="group">
+        <span class="font-display text-2xl md:text-3xl tracking-wide text-ink font-semibold group-hover:text-gold transition-colors duration-300">
+          Imobiliária Alano
+        </span>
+        <span class="block text-[10px] uppercase tracking-[0.35em] text-gold-dark mt-0.5 font-medium">
+          Especialistas em “achados impossíveis”
+        </span>
+      </a>
+      <nav class="hidden sm:flex items-center gap-7 text-sm tracking-wide text-charcoal/75">
+        <a href="#galeria" class="hover:text-gold transition-colors">Tour</a>
+        <a href="#descricao" class="hover:text-gold transition-colors">Detalhes</a>
+        <a href="#regras" class="hover:text-gold transition-colors">Regras</a>
+        <a href="#cta" class="px-4 py-2 rounded-full border border-gold/40 text-gold-dark hover:bg-gold hover:text-ink transition-all text-xs uppercase tracking-widest font-medium">
+          Alugar
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative min-h-[92vh] flex items-end sm:items-center justify-center pt-16">
+    <div class="absolute inset-0">
+      <img
+        src="img/foto4.jpeg"
+        alt="Sala do apartamento"
+        class="w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 hero-overlay"></div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-5 sm:px-6 text-center text-white pb-28 sm:pb-24 pt-24">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/40 bg-white/5 backdrop-blur-sm mb-7 animate-fade-up">
+        <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
+        <span class="text-gold-light text-[11px] uppercase badge-ribbon font-medium">
+          Encontramos o que você pediu
+        </span>
+      </div>
+
+      <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-semibold leading-[1.1] mb-4 animate-fade-up" style="animation-delay: 0.1s">
+        Apartamento Exclusivo
+      </h1>
+      <p class="font-display italic text-gold-light text-2xl sm:text-3xl md:text-4xl font-normal mb-8 animate-fade-up" style="animation-delay: 0.2s">
+        Oportunidade Única e Irrecusável
+      </p>
+
+      <div class="flex justify-center my-6">
+        <div class="gold-line"></div>
+      </div>
+
+      <p class="text-white/75 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed animate-fade-up" style="animation-delay: 0.3s">
+        Alguém disse que alugaria um apartamento se achasse um por
+        <span class="text-gold-light font-medium not-italic">R$&nbsp;5</span>.
+        <br class="hidden sm:block" />
+        Então… nós demos um jeito. 💛
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up" style="animation-delay: 0.4s">
+        <a href="#cta" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-ink font-semibold px-8 py-3.5 rounded-sm transition-all cta-glow text-sm tracking-wide">
+          Quero ver a proposta
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
+        <a href="#galeria" class="text-sm text-white/70 hover:text-white border-b border-white/30 hover:border-white pb-0.5 transition-all tracking-wide">
+          Ver o tour do imóvel
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preço em Destaque -->
+  <section class="relative -mt-16 z-20 px-5 sm:px-6">
+    <div class="max-w-4xl mx-auto bg-white shadow-2xl shadow-ink/15 border border-ink/5 rounded-sm overflow-hidden">
+      <div class="bg-gradient-to-r from-gold/15 via-blush/40 to-gold/15 px-4 py-2.5 text-center border-b border-ink/5">
+        <p class="text-[11px] uppercase tracking-[0.28em] text-gold-dark font-medium">
+          ✨ Condição especial · válida só para uma pessoa
+        </p>
+      </div>
+      <div class="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-ink/5">
+        <div class="p-8 md:p-10 text-center">
+          <p class="text-[11px] uppercase tracking-[0.3em] text-gold-dark font-medium mb-3">Aluguel</p>
+          <p class="font-display text-5xl md:text-6xl font-semibold text-ink leading-none">
+            R$&nbsp;5<span class="text-2xl align-top">,00</span>
+          </p>
+          <p class="text-charcoal/55 text-sm mt-2 tracking-wide">por mês · sem reajuste (de coração)</p>
+        </div>
+        <div class="p-8 md:p-10 flex flex-col justify-center text-center">
+          <p class="text-[11px] uppercase tracking-[0.3em] text-gold-dark font-medium mb-3">Condomínio</p>
+          <p class="font-display text-3xl font-semibold text-ink">R$ 0,00</p>
+          <p class="text-charcoal/50 text-xs mt-2 leading-relaxed">Zero. Nada. Nem taxa de “fundo de amigos”.</p>
+        </div>
+        <div class="p-8 md:p-10 flex flex-col justify-center text-center">
+          <p class="text-[11px] uppercase tracking-[0.3em] text-gold-dark font-medium mb-3">IPTU</p>
+          <p class="font-display text-2xl md:text-3xl font-semibold text-ink leading-snug">Pago em cafunés</p>
+          <p class="text-charcoal/50 text-xs mt-2 leading-relaxed">Recibo emitido em abraços e sorrisos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Destaques rápidos -->
+  <section class="max-w-6xl mx-auto px-5 sm:px-6 pt-16 md:pt-20">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
+        <p class="font-display text-2xl text-gold mb-1">🛋️</p>
+        <p class="text-sm font-medium text-ink">Sala aconchegante</p>
+        <p class="text-xs text-charcoal/50 mt-1">Sofá liberado para maratonas</p>
+      </div>
+      <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
+        <p class="font-display text-2xl text-gold mb-1">🍳</p>
+        <p class="text-sm font-medium text-ink">Cozinha completa</p>
+        <p class="text-xs text-charcoal/50 mt-1">Pronta pro café da manhã a dois</p>
+      </div>
+      <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
+        <p class="font-display text-2xl text-gold mb-1">🛏️</p>
+        <p class="text-sm font-medium text-ink">Suíte (quase)</p>
+        <p class="text-xs text-charcoal/50 mt-1">Cama grande, coração maior</p>
+      </div>
+      <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
+        <p class="font-display text-2xl text-gold mb-1">🎮</p>
+        <p class="text-sm font-medium text-ink">Cantinho gamer</p>
+        <p class="text-xs text-charcoal/50 mt-1">Player 2 bem-vinda</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galeria -->
+  <section id="galeria" class="max-w-6xl mx-auto px-5 sm:px-6 py-20 md:py-28">
+    <div class="text-center mb-12">
+      <p class="text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium mb-3">Fotos reais do imóvel</p>
+      <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink">Tour pelo apartamento</h2>
+      <p class="text-charcoal/55 mt-3 font-light max-w-md mx-auto text-sm leading-relaxed">
+        Clique nas fotos para ampliar. (Sim, é exatamente assim — sem filtro de imobiliária.)
+      </p>
+      <div class="flex justify-center mt-5">
+        <div class="gold-line"></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+      <!-- Sala - destaque -->
+      <figure class="gallery-card sm:col-span-2 lg:col-span-2 lg:row-span-2 relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer group" data-lightbox="img/foto4.jpeg" data-caption="Sala de estar — maratonas, cobertor e alguém especial no sofá">
+        <div class="aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[440px]">
+          <img src="img/foto4.jpeg" alt="Sala de estar" class="w-full h-full object-cover" />
+        </div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-5 pt-16">
+          <span class="text-white font-display text-xl">Sala de estar</span>
+          <span class="block text-white/70 text-xs mt-1">Maratonas, cobertor e companhia boa</span>
+        </figcaption>
+      </figure>
+
+      <!-- Quarto -->
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto2.jpeg" data-caption="Quarto — ventilador incluso, carinho também">
+        <div class="aspect-[4/3]">
+          <img src="img/foto2.jpeg" alt="Quarto" class="w-full h-full object-cover" />
+        </div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
+          <span class="text-white font-display text-lg">Quarto</span>
+          <span class="block text-white/65 text-xs mt-0.5">Ventilador incluso · carinho à parte</span>
+        </figcaption>
+      </figure>
+
+      <!-- Cozinha -->
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto3.jpeg" data-caption="Cozinha — café da manhã com conversa de sobra">
+        <div class="aspect-[4/3]">
+          <img src="img/foto3.jpeg" alt="Cozinha" class="w-full h-full object-cover" />
+        </div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
+          <span class="text-white font-display text-lg">Cozinha</span>
+          <span class="block text-white/65 text-xs mt-0.5">Café da manhã com conversa de sobra</span>
+        </figcaption>
+      </figure>
+
+      <!-- Escritório / setup -->
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto1.jpeg" data-caption="Home office — Player 2 tem cadeira reservada">
+        <div class="aspect-[4/3]">
+          <img src="img/foto1.jpeg" alt="Home office / setup" class="w-full h-full object-cover" />
+        </div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
+          <span class="text-white font-display text-lg">Home office</span>
+          <span class="block text-white/65 text-xs mt-0.5">Player 2 tem cadeira reservada</span>
+        </figcaption>
+      </figure>
+
+      <!-- Banheiro -->
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto5.jpeg" data-caption="Banheiro — chuveiro quente e espelho honesto">
+        <div class="aspect-[4/3]">
+          <img src="img/foto5.jpeg" alt="Banheiro" class="w-full h-full object-cover" />
+        </div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
+          <span class="text-white font-display text-lg">Banheiro</span>
+          <span class="block text-white/65 text-xs mt-0.5">Chuveiro quente e espelho honesto</span>
+        </figcaption>
+      </figure>
+
+      <!-- Área de serviço -->
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer sm:col-span-1" data-lightbox="img/foto7.jpeg" data-caption="Área de serviço — máquina pronta pro combo ‘eu lavo, você dobra’">
+        <div class="aspect-[4/3]">
+          <img src="img/foto7.jpeg" alt="Área de serviço" class="w-full h-full object-cover" />
+        </div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
+          <span class="text-white font-display text-lg">Área de serviço</span>
+          <span class="block text-white/65 text-xs mt-0.5">Combo “eu lavo, você dobra”</span>
+        </figcaption>
+      </figure>
+
+      <!-- Geladeira -->
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer sm:col-span-2 lg:col-span-1" data-lightbox="img/foto6.jpeg" data-caption="Canto da geladeira — fotos na porta, histórias no freezer">
+        <div class="aspect-[4/3]">
+          <img src="img/foto6.jpeg" alt="Geladeira e micro-ondas" class="w-full h-full object-cover" />
+        </div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
+          <span class="text-white font-display text-lg">Cantinho da geladeira</span>
+          <span class="block text-white/65 text-xs mt-0.5">Fotos na porta · histórias no freezer</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Descrição -->
+  <section id="descricao" class="bg-white border-y border-ink/5">
+    <div class="max-w-3xl mx-auto px-5 sm:px-6 py-20 md:py-28">
+      <div class="text-center mb-12">
+        <p class="text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium mb-3">A proposta</p>
+        <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink">Sobre o apartamento</h2>
+        <div class="flex justify-center mt-5">
+          <div class="gold-line"></div>
+        </div>
+      </div>
+
+      <div class="space-y-5 text-charcoal/80 font-light leading-relaxed text-base md:text-lg">
+        <p>
+          Situado em localização privilegiada (perto de quem importa), este apartamento exclusivo reúne
+          sofisticação do dia a dia, conforto de verdade e um acabamento… digamos…
+          <em class="text-ink not-italic font-medium">honesto e cheio de personalidade</em>.
+        </p>
+        <p>
+          Ambientes amplos o suficiente para caber uma vida a dois, iluminação que aceita tanto o café da manhã
+          quanto o filme da meia-noite, e uma atmosfera que só melhora quando tem alguém especial por perto.
+        </p>
+        <p>
+          Ideal para quem buscava um aluguel de R$&nbsp;5 — e, sem querer, encontrou bem mais do que um imóvel:
+          <strong class="font-medium text-ink">um convite para ficar</strong>.
+        </p>
+      </div>
+
+      <!-- Carta / twist -->
+      <div class="mt-12 relative">
+        <div class="absolute -inset-1 bg-gradient-to-br from-gold/20 via-blush/30 to-gold/10 rounded-sm blur-sm"></div>
+        <div class="relative bg-cream border border-gold/25 rounded-sm p-7 md:p-10">
+          <p class="text-[11px] uppercase tracking-[0.3em] text-gold-dark font-medium mb-4">Nota do corretor (confidencial)</p>
+          <p class="font-display text-xl md:text-2xl text-ink leading-relaxed italic">
+            “Ela falou que alugaria se achasse um por cinco reais.
+            Então eu tirei foto de casa, montei o anúncio e vim te entregar a chave.
+            O aluguel é simbólico. O que eu quero de verdade é você aqui comigo.”
+          </p>
+          <p class="mt-5 text-right font-display text-lg text-gold-dark">— Alano 💛</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Regras da Locação -->
+  <section id="regras" class="max-w-3xl mx-auto px-5 sm:px-6 py-20 md:py-28">
+    <div class="text-center mb-12">
+      <p class="text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium mb-3">Contrato (versão carinho)</p>
+      <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink">Regras da Locação</h2>
+      <p class="text-charcoal/50 mt-3 text-sm font-light">Leia com atenção. Não aceitamos “eu não sabia”.</p>
+      <div class="flex justify-center mt-5">
+        <div class="gold-line"></div>
+      </div>
+    </div>
+
+    <ul class="space-y-3.5">
+      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
+        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">01</span>
+        <span class="text-charcoal/85 leading-relaxed">
+          Aprovação <strong class="font-medium text-ink">automática</strong> para inquilinas com o nome
+          <strong class="font-medium text-ink">Alexandra</strong>
+          (e para qualquer variação que faça o coração do proprietário bater mais forte).
+        </span>
+      </li>
+      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
+        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">02</span>
+        <span class="text-charcoal/85 leading-relaxed">
+          Multa rescisória: <strong class="font-medium text-ink">lavar a louça do jantar</strong>
+          (a panela “de molho” também conta — negociação possível com beijo).
+        </span>
+      </li>
+      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
+        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">03</span>
+        <span class="text-charcoal/85 leading-relaxed">
+          O proprietário mora no local, mas <strong class="font-medium text-ink">jura que é gente boa</strong>.
+          Aceita filmes ruins, conversas longas e silêncios confortáveis.
+        </span>
+      </li>
+      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
+        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">04</span>
+        <span class="text-charcoal/85 leading-relaxed">
+          Uso do sofá: liberado 24h. Cobertor incluso. Obrigatório dividir o controle remoto
+          (e às vezes a opinião sobre a série).
+        </span>
+      </li>
+      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
+        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">05</span>
+        <span class="text-charcoal/85 leading-relaxed">
+          Setup gamer: Player 2 tem vaga garantida. Vitórias se comemoram juntos;
+          derrotas também (com lanche).
+        </span>
+      </li>
+      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
+        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">06</span>
+        <span class="text-charcoal/85 leading-relaxed">
+          IPTU: quitado em cafunés. Contestação sujeita a <strong class="font-medium text-ink">mais cafunés</strong>.
+        </span>
+      </li>
+      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
+        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">07</span>
+        <span class="text-charcoal/85 leading-relaxed">
+          Horário de chegada: qualquer um. Horário de ir embora:
+          <strong class="font-medium text-ink">preferencialmente nunca</strong>.
+        </span>
+      </li>
+      <li class="flex gap-4 items-start bg-gradient-to-r from-gold/10 to-blush/30 border border-gold/25 px-5 py-4 rounded-sm">
+        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">08</span>
+        <span class="text-charcoal/90 leading-relaxed">
+          Cláusula principal: o aluguel de R$&nbsp;5 é só a desculpa.
+          O real objetivo é <strong class="font-medium text-ink">você ficar aqui comigo</strong>.
+        </span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="relative overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="img/foto2.jpeg" alt="" class="w-full h-full object-cover scale-105" aria-hidden="true" />
+      <div class="absolute inset-0 bg-charcoal/88"></div>
+      <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(ellipse at 50% 20%, #C4A35A 0%, transparent 55%);"></div>
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-6 py-24 md:py-32 text-center">
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-full border border-gold/40 bg-gold/10 mb-6">
+        <span class="text-2xl heart-pulse" aria-hidden="true">💛</span>
+      </div>
+      <p class="text-gold-light text-[11px] uppercase tracking-[0.4em] font-medium mb-5">
+        Última vaga · reservada no seu nome
+      </p>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-white mb-4 leading-tight">
+        Aceita o contrato?
+      </h2>
+      <p class="text-white/65 font-light max-w-md mx-auto mb-10 leading-relaxed">
+        R$&nbsp;5,00 por mês. Condomínio zero. IPTU em carinho.
+        <br />
+        E um dono de apartamento que só quer você por perto.
+      </p>
+
+      <button
+        type="button"
+        id="btn-alugar"
+        class="cta-glow inline-flex items-center justify-center gap-3 bg-gold hover:bg-gold-light text-ink font-semibold text-base md:text-lg tracking-wide px-10 md:px-14 py-5 rounded-sm transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-gold-light focus:ring-offset-2 focus:ring-offset-charcoal"
+      >
+        <span>Quero Alugar por R$ 5!</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </button>
+
+      <p class="mt-8 text-white/35 text-xs tracking-wide max-w-xs mx-auto leading-relaxed">
+        Ao clicar, você declara que leu as regras, aceita cafunés como moeda e sabe que não tem direito a arrependimento.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-ink text-white/40 py-12 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
+      <div>
+        <p class="font-display text-2xl text-white/85 tracking-wide">Imobiliária Alano</p>
+        <p class="text-xs mt-1.5 tracking-wider uppercase text-white/35">
+          Onde o aluguel é simbólico e o convite é de verdade
+        </p>
+      </div>
+      <p class="text-xs leading-relaxed">
+        © 2026 · Feito com carinho (e um pouco de ousadia)
+        <br class="sm:hidden" />
+        <span class="hidden sm:inline"> · </span>
+        Todos os cafunés reservados
+      </p>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="fixed inset-0 z-[100] bg-ink/90 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Visualização da foto">
+    <button type="button" id="lightbox-close" class="absolute top-5 right-5 text-white/70 hover:text-white text-3xl leading-none w-10 h-10 flex items-center justify-center" aria-label="Fechar">&times;</button>
+    <div class="max-w-5xl w-full">
+      <img id="lightbox-img" src="" alt="" class="max-h-[80vh] w-full object-contain rounded-sm shadow-2xl" />
+      <p id="lightbox-caption" class="text-center text-white/70 text-sm mt-4 font-light"></p>
+    </div>
+  </div>
+
+  <script>
+    // CTA
+    document.getElementById('btn-alugar').addEventListener('click', function () {
+      alert('Contrato assinado com sucesso! Sem direito a arrependimento, viu?\n\n(Agora é oficial: as chaves — e o sofá — são seus também. 💛)');
+    });
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+
+    function openLightbox(src, caption) {
+      lightboxImg.src = src;
+      lightboxImg.alt = caption || '';
+      lightboxCaption.textContent = caption || '';
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('[data-lightbox]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        openLightbox(el.getAttribute('data-lightbox'), el.getAttribute('data-caption'));
+      });
+    });
+
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>
