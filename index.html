@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Apartamento por R$ 5 | Imobiliária Alano</title>
-  <meta name="description" content="Oportunidade única e irrecusável: apartamento exclusivo por apenas R$ 5,00/mês. Aprovação automática para Alexandra." />
-  <meta property="og:title" content="Apartamento Exclusivo por R$ 5,00/mês · Imobiliária Alano" />
-  <meta property="og:description" content="Você pediu um aluguel de R$ 5. Eu achei. (E tem um detalhe especial no final.)" />
+  <title>Para você · Alano &amp; Alexandra</title>
+  <meta name="description" content="Você pediu um aluguel de R$ 5. Eu achei o apartamento… e uma proposta muito maior." />
+  <meta property="og:title" content="Apartamento por R$ 5… e algo mais · Alano" />
+  <meta property="og:description" content="Leia até o final. Tem uma cláusula especial com o seu nome." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="img/foto4.jpeg" />
+  <meta property="og:image" content="img/Nossas/nos01.jpeg" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <script>
     tailwind.config = {
       theme: {
@@ -24,27 +24,11 @@
           colors: {
             cream: '#F7F4EF',
             ink: '#1A1A1A',
-            gold: {
-              DEFAULT: '#C4A35A',
-              light: '#D4BC7D',
-              dark: '#A68B3D',
-            },
+            gold: { DEFAULT: '#C4A35A', light: '#D4BC7D', dark: '#A68B3D' },
             charcoal: '#2C2C2C',
             blush: '#E8D5D0',
-          },
-          animation: {
-            'fade-up': 'fadeUp 0.8s ease-out both',
-            'float': 'float 6s ease-in-out infinite',
-          },
-          keyframes: {
-            fadeUp: {
-              '0%': { opacity: '0', transform: 'translateY(24px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-8px)' },
-            },
+            rose: { soft: '#F3E6E3', deep: '#8B4A52', mid: '#C47880' },
+            night: '#120E10',
           },
         },
       },
@@ -53,13 +37,15 @@
   <style>
     html { scroll-behavior: smooth; }
     .hero-overlay {
-      background:
-        linear-gradient(180deg, rgba(26,26,26,0.45) 0%, rgba(26,26,26,0.72) 55%, rgba(26,26,26,0.92) 100%);
+      background: linear-gradient(180deg, rgba(26,26,26,0.45) 0%, rgba(26,26,26,0.72) 55%, rgba(26,26,26,0.92) 100%);
     }
     .gold-line {
-      width: 72px;
-      height: 2px;
+      width: 72px; height: 2px;
       background: linear-gradient(90deg, transparent, #C4A35A, transparent);
+    }
+    .rose-line {
+      width: 72px; height: 2px;
+      background: linear-gradient(90deg, transparent, #C47880, transparent);
     }
     .gallery-card {
       transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
@@ -68,34 +54,102 @@
       transform: translateY(-4px) scale(1.01);
       box-shadow: 0 24px 48px rgba(0,0,0,0.18);
     }
-    .gallery-card img {
-      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .gallery-card:hover img {
-      transform: scale(1.06);
-    }
+    .gallery-card img { transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+    .gallery-card:hover img { transform: scale(1.06); }
     .cta-glow:hover {
       box-shadow: 0 0 0 4px rgba(196, 163, 90, 0.28), 0 16px 48px rgba(196, 163, 90, 0.45);
     }
-    .heart-pulse {
-      animation: heartPulse 1.6s ease-in-out infinite;
+    .love-glow:hover {
+      box-shadow: 0 0 0 4px rgba(196, 120, 128, 0.3), 0 16px 48px rgba(139, 74, 82, 0.4);
     }
+    .heart-pulse { animation: heartPulse 1.6s ease-in-out infinite; }
     @keyframes heartPulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.12); }
     }
-    /* Lightbox */
     #lightbox {
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    }
+    #lightbox.open { opacity: 1; pointer-events: auto; }
+    .badge-ribbon { letter-spacing: 0.28em; }
+
+    /* Polaroid */
+    .polaroid {
+      background: #fff;
+      padding: 0.65rem 0.65rem 2.25rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+    }
+    .polaroid:hover {
+      transform: translateY(-8px) rotate(0deg) !important;
+      box-shadow: 0 22px 50px rgba(0,0,0,0.18);
+      z-index: 5;
+    }
+    .polaroid img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+    .polaroid figcaption {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      text-align: center;
+      margin-top: 0.65rem;
+      font-size: 0.95rem;
+      color: #2C2C2C;
+      line-height: 1.3;
+    }
+
+    /* Film strip scroll */
+    .film-track {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 1.5rem 1.25rem 2rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #C47880 transparent;
+    }
+    .film-track::-webkit-scrollbar { height: 6px; }
+    .film-track::-webkit-scrollbar-thumb { background: #C47880; border-radius: 99px; }
+    .film-item {
+      flex: 0 0 min(78vw, 280px);
+      scroll-snap-align: center;
+    }
+
+    /* Reveal on scroll */
+    .reveal {
       opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
+      transform: translateY(28px);
+      transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    #lightbox.open {
+    .reveal.visible {
       opacity: 1;
-      pointer-events: auto;
+      transform: translateY(0);
     }
-    .badge-ribbon {
-      letter-spacing: 0.28em;
+
+    /* Vow cards */
+    .vow {
+      position: relative;
+      padding-left: 1.25rem;
+    }
+    .vow::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0.45rem;
+      width: 6px; height: 6px;
+      border-radius: 999px;
+      background: #C47880;
+      box-shadow: 0 0 0 4px rgba(196, 120, 128, 0.18);
+    }
+
+    /* Floating hearts bg */
+    .hearts-bg {
+      background-image:
+        radial-gradient(ellipse at 15% 20%, rgba(196,120,128,0.12) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 70%, rgba(196,163,90,0.1) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 100%, rgba(232,213,208,0.5) 0%, transparent 50%);
+    }
+
+    /* Typewriter-ish counter */
+    .years-badge {
+      background: linear-gradient(135deg, #8B4A52 0%, #C47880 100%);
     }
   </style>
 </head>
@@ -112,55 +166,51 @@
           Especialistas em “achados impossíveis”
         </span>
       </a>
-      <nav class="hidden sm:flex items-center gap-7 text-sm tracking-wide text-charcoal/75">
+      <nav class="hidden sm:flex items-center gap-6 text-sm tracking-wide text-charcoal/75">
         <a href="#galeria" class="hover:text-gold transition-colors">Tour</a>
-        <a href="#descricao" class="hover:text-gold transition-colors">Detalhes</a>
         <a href="#regras" class="hover:text-gold transition-colors">Regras</a>
-        <a href="#cta" class="px-4 py-2 rounded-full border border-gold/40 text-gold-dark hover:bg-gold hover:text-ink transition-all text-xs uppercase tracking-widest font-medium">
-          Alugar
+        <a href="#cta" class="hover:text-gold transition-colors">Alugar</a>
+        <a href="#nosso" class="px-4 py-2 rounded-full border border-rose-mid/40 text-rose-deep hover:bg-rose-mid hover:text-white transition-all text-xs uppercase tracking-widest font-medium">
+          Nós
         </a>
       </nav>
     </div>
   </header>
 
+  <!-- ========== PARTE 1: A BRINCADEIRA DO APARTAMENTO ========== -->
+
   <!-- Hero -->
   <section class="relative min-h-[92vh] flex items-end sm:items-center justify-center pt-16">
     <div class="absolute inset-0">
-      <img
-        src="img/foto4.jpeg"
-        alt="Sala do apartamento"
-        class="w-full h-full object-cover"
-      />
+      <img src="img/foto4.jpeg" alt="Sala do apartamento" class="w-full h-full object-cover" />
       <div class="absolute inset-0 hero-overlay"></div>
     </div>
 
     <div class="relative z-10 max-w-4xl mx-auto px-5 sm:px-6 text-center text-white pb-28 sm:pb-24 pt-24">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/40 bg-white/5 backdrop-blur-sm mb-7 animate-fade-up">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/40 bg-white/5 backdrop-blur-sm mb-7">
         <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
         <span class="text-gold-light text-[11px] uppercase badge-ribbon font-medium">
           Encontramos o que você pediu
         </span>
       </div>
 
-      <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-semibold leading-[1.1] mb-4 animate-fade-up" style="animation-delay: 0.1s">
+      <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-semibold leading-[1.1] mb-4">
         Apartamento Exclusivo
       </h1>
-      <p class="font-display italic text-gold-light text-2xl sm:text-3xl md:text-4xl font-normal mb-8 animate-fade-up" style="animation-delay: 0.2s">
+      <p class="font-display italic text-gold-light text-2xl sm:text-3xl md:text-4xl font-normal mb-8">
         Oportunidade Única e Irrecusável
       </p>
 
-      <div class="flex justify-center my-6">
-        <div class="gold-line"></div>
-      </div>
+      <div class="flex justify-center my-6"><div class="gold-line"></div></div>
 
-      <p class="text-white/75 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed animate-fade-up" style="animation-delay: 0.3s">
+      <p class="text-white/75 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed">
         Alguém disse que alugaria um apartamento se achasse um por
-        <span class="text-gold-light font-medium not-italic">R$&nbsp;5</span>.
+        <span class="text-gold-light font-medium">R$&nbsp;5</span>.
         <br class="hidden sm:block" />
         Então… nós demos um jeito. 💛
       </p>
 
-      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up" style="animation-delay: 0.4s">
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
         <a href="#cta" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-ink font-semibold px-8 py-3.5 rounded-sm transition-all cta-glow text-sm tracking-wide">
           Quero ver a proposta
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -174,7 +224,7 @@
     </div>
   </section>
 
-  <!-- Preço em Destaque -->
+  <!-- Preço -->
   <section class="relative -mt-16 z-20 px-5 sm:px-6">
     <div class="max-w-4xl mx-auto bg-white shadow-2xl shadow-ink/15 border border-ink/5 rounded-sm overflow-hidden">
       <div class="bg-gradient-to-r from-gold/15 via-blush/40 to-gold/15 px-4 py-2.5 text-center border-b border-ink/5">
@@ -204,33 +254,33 @@
     </div>
   </section>
 
-  <!-- Destaques rápidos -->
+  <!-- Destaques -->
   <section class="max-w-6xl mx-auto px-5 sm:px-6 pt-16 md:pt-20">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
       <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
-        <p class="font-display text-2xl text-gold mb-1">🛋️</p>
+        <p class="text-2xl mb-1">🛋️</p>
         <p class="text-sm font-medium text-ink">Sala aconchegante</p>
         <p class="text-xs text-charcoal/50 mt-1">Sofá liberado para maratonas</p>
       </div>
       <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
-        <p class="font-display text-2xl text-gold mb-1">🍳</p>
+        <p class="text-2xl mb-1">🍳</p>
         <p class="text-sm font-medium text-ink">Cozinha completa</p>
         <p class="text-xs text-charcoal/50 mt-1">Pronta pro café da manhã a dois</p>
       </div>
       <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
-        <p class="font-display text-2xl text-gold mb-1">🛏️</p>
+        <p class="text-2xl mb-1">🛏️</p>
         <p class="text-sm font-medium text-ink">Suíte (quase)</p>
         <p class="text-xs text-charcoal/50 mt-1">Cama grande, coração maior</p>
       </div>
       <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
-        <p class="font-display text-2xl text-gold mb-1">🎮</p>
+        <p class="text-2xl mb-1">🎮</p>
         <p class="text-sm font-medium text-ink">Cantinho gamer</p>
         <p class="text-xs text-charcoal/50 mt-1">Player 2 bem-vinda</p>
       </div>
     </div>
   </section>
 
-  <!-- Galeria -->
+  <!-- Galeria apto -->
   <section id="galeria" class="max-w-6xl mx-auto px-5 sm:px-6 py-20 md:py-28">
     <div class="text-center mb-12">
       <p class="text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium mb-3">Fotos reais do imóvel</p>
@@ -238,14 +288,11 @@
       <p class="text-charcoal/55 mt-3 font-light max-w-md mx-auto text-sm leading-relaxed">
         Clique nas fotos para ampliar. (Sim, é exatamente assim — sem filtro de imobiliária.)
       </p>
-      <div class="flex justify-center mt-5">
-        <div class="gold-line"></div>
-      </div>
+      <div class="flex justify-center mt-5"><div class="gold-line"></div></div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-      <!-- Sala - destaque -->
-      <figure class="gallery-card sm:col-span-2 lg:col-span-2 lg:row-span-2 relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer group" data-lightbox="img/foto4.jpeg" data-caption="Sala de estar — maratonas, cobertor e alguém especial no sofá">
+      <figure class="gallery-card sm:col-span-2 lg:col-span-2 lg:row-span-2 relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto4.jpeg" data-caption="Sala de estar — maratonas, cobertor e alguém especial no sofá">
         <div class="aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[440px]">
           <img src="img/foto4.jpeg" alt="Sala de estar" class="w-full h-full object-cover" />
         </div>
@@ -254,67 +301,43 @@
           <span class="block text-white/70 text-xs mt-1">Maratonas, cobertor e companhia boa</span>
         </figcaption>
       </figure>
-
-      <!-- Quarto -->
       <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto2.jpeg" data-caption="Quarto — ventilador incluso, carinho também">
-        <div class="aspect-[4/3]">
-          <img src="img/foto2.jpeg" alt="Quarto" class="w-full h-full object-cover" />
-        </div>
+        <div class="aspect-[4/3]"><img src="img/foto2.jpeg" alt="Quarto" class="w-full h-full object-cover" /></div>
         <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
           <span class="text-white font-display text-lg">Quarto</span>
           <span class="block text-white/65 text-xs mt-0.5">Ventilador incluso · carinho à parte</span>
         </figcaption>
       </figure>
-
-      <!-- Cozinha -->
       <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto3.jpeg" data-caption="Cozinha — café da manhã com conversa de sobra">
-        <div class="aspect-[4/3]">
-          <img src="img/foto3.jpeg" alt="Cozinha" class="w-full h-full object-cover" />
-        </div>
+        <div class="aspect-[4/3]"><img src="img/foto3.jpeg" alt="Cozinha" class="w-full h-full object-cover" /></div>
         <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
           <span class="text-white font-display text-lg">Cozinha</span>
           <span class="block text-white/65 text-xs mt-0.5">Café da manhã com conversa de sobra</span>
         </figcaption>
       </figure>
-
-      <!-- Escritório / setup -->
       <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto1.jpeg" data-caption="Home office — Player 2 tem cadeira reservada">
-        <div class="aspect-[4/3]">
-          <img src="img/foto1.jpeg" alt="Home office / setup" class="w-full h-full object-cover" />
-        </div>
+        <div class="aspect-[4/3]"><img src="img/foto1.jpeg" alt="Home office" class="w-full h-full object-cover" /></div>
         <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
           <span class="text-white font-display text-lg">Home office</span>
           <span class="block text-white/65 text-xs mt-0.5">Player 2 tem cadeira reservada</span>
         </figcaption>
       </figure>
-
-      <!-- Banheiro -->
       <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto5.jpeg" data-caption="Banheiro — chuveiro quente e espelho honesto">
-        <div class="aspect-[4/3]">
-          <img src="img/foto5.jpeg" alt="Banheiro" class="w-full h-full object-cover" />
-        </div>
+        <div class="aspect-[4/3]"><img src="img/foto5.jpeg" alt="Banheiro" class="w-full h-full object-cover" /></div>
         <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
           <span class="text-white font-display text-lg">Banheiro</span>
           <span class="block text-white/65 text-xs mt-0.5">Chuveiro quente e espelho honesto</span>
         </figcaption>
       </figure>
-
-      <!-- Área de serviço -->
-      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer sm:col-span-1" data-lightbox="img/foto7.jpeg" data-caption="Área de serviço — máquina pronta pro combo ‘eu lavo, você dobra’">
-        <div class="aspect-[4/3]">
-          <img src="img/foto7.jpeg" alt="Área de serviço" class="w-full h-full object-cover" />
-        </div>
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto7.jpeg" data-caption="Área de serviço — máquina pronta pro combo ‘eu lavo, você dobra’">
+        <div class="aspect-[4/3]"><img src="img/foto7.jpeg" alt="Área de serviço" class="w-full h-full object-cover" /></div>
         <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
           <span class="text-white font-display text-lg">Área de serviço</span>
           <span class="block text-white/65 text-xs mt-0.5">Combo “eu lavo, você dobra”</span>
         </figcaption>
       </figure>
-
-      <!-- Geladeira -->
       <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer sm:col-span-2 lg:col-span-1" data-lightbox="img/foto6.jpeg" data-caption="Canto da geladeira — fotos na porta, histórias no freezer">
-        <div class="aspect-[4/3]">
-          <img src="img/foto6.jpeg" alt="Geladeira e micro-ondas" class="w-full h-full object-cover" />
-        </div>
+        <div class="aspect-[4/3]"><img src="img/foto6.jpeg" alt="Geladeira" class="w-full h-full object-cover" /></div>
         <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
           <span class="text-white font-display text-lg">Cantinho da geladeira</span>
           <span class="block text-white/65 text-xs mt-0.5">Fotos na porta · histórias no freezer</span>
@@ -329,15 +352,13 @@
       <div class="text-center mb-12">
         <p class="text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium mb-3">A proposta</p>
         <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink">Sobre o apartamento</h2>
-        <div class="flex justify-center mt-5">
-          <div class="gold-line"></div>
-        </div>
+        <div class="flex justify-center mt-5"><div class="gold-line"></div></div>
       </div>
 
       <div class="space-y-5 text-charcoal/80 font-light leading-relaxed text-base md:text-lg">
         <p>
           Situado em localização privilegiada (perto de quem importa), este apartamento exclusivo reúne
-          sofisticação do dia a dia, conforto de verdade e um acabamento… digamos…
+          sofisticação do dia a dia, conforto de verdade e um acabamento…
           <em class="text-ink not-italic font-medium">honesto e cheio de personalidade</em>.
         </p>
         <p>
@@ -350,7 +371,6 @@
         </p>
       </div>
 
-      <!-- Carta / twist -->
       <div class="mt-12 relative">
         <div class="absolute -inset-1 bg-gradient-to-br from-gold/20 via-blush/30 to-gold/10 rounded-sm blur-sm"></div>
         <div class="relative bg-cream border border-gold/25 rounded-sm p-7 md:p-10">
@@ -366,15 +386,13 @@
     </div>
   </section>
 
-  <!-- Regras da Locação -->
+  <!-- Regras -->
   <section id="regras" class="max-w-3xl mx-auto px-5 sm:px-6 py-20 md:py-28">
     <div class="text-center mb-12">
       <p class="text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium mb-3">Contrato (versão carinho)</p>
       <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink">Regras da Locação</h2>
       <p class="text-charcoal/50 mt-3 text-sm font-light">Leia com atenção. Não aceitamos “eu não sabia”.</p>
-      <div class="flex justify-center mt-5">
-        <div class="gold-line"></div>
-      </div>
+      <div class="flex justify-center mt-5"><div class="gold-line"></div></div>
     </div>
 
     <ul class="space-y-3.5">
@@ -410,8 +428,7 @@
       <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
         <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">05</span>
         <span class="text-charcoal/85 leading-relaxed">
-          Setup gamer: Player 2 tem vaga garantida. Vitórias se comemoram juntos;
-          derrotas também (com lanche).
+          Setup gamer: Player 2 tem vaga garantida. Vitórias se comemoram juntos; derrotas também (com lanche).
         </span>
       </li>
       <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
@@ -437,14 +454,13 @@
     </ul>
   </section>
 
-  <!-- CTA -->
+  <!-- CTA aluguel -->
   <section id="cta" class="relative overflow-hidden">
     <div class="absolute inset-0">
       <img src="img/foto2.jpeg" alt="" class="w-full h-full object-cover scale-105" aria-hidden="true" />
       <div class="absolute inset-0 bg-charcoal/88"></div>
       <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(ellipse at 50% 20%, #C4A35A 0%, transparent 55%);"></div>
     </div>
-
     <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-6 py-24 md:py-32 text-center">
       <div class="inline-flex items-center justify-center w-14 h-14 rounded-full border border-gold/40 bg-gold/10 mb-6">
         <span class="text-2xl heart-pulse" aria-hidden="true">💛</span>
@@ -457,23 +473,286 @@
       </h2>
       <p class="text-white/65 font-light max-w-md mx-auto mb-10 leading-relaxed">
         R$&nbsp;5,00 por mês. Condomínio zero. IPTU em carinho.
-        <br />
-        E um dono de apartamento que só quer você por perto.
+        <br />E um dono de apartamento que só quer você por perto.
       </p>
-
-      <button
-        type="button"
-        id="btn-alugar"
-        class="cta-glow inline-flex items-center justify-center gap-3 bg-gold hover:bg-gold-light text-ink font-semibold text-base md:text-lg tracking-wide px-10 md:px-14 py-5 rounded-sm transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-gold-light focus:ring-offset-2 focus:ring-offset-charcoal"
-      >
+      <button type="button" id="btn-alugar" class="cta-glow inline-flex items-center justify-center gap-3 bg-gold hover:bg-gold-light text-ink font-semibold text-base md:text-lg tracking-wide px-10 md:px-14 py-5 rounded-sm transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-gold-light focus:ring-offset-2 focus:ring-offset-charcoal">
         <span>Quero Alugar por R$ 5!</span>
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
         </svg>
       </button>
-
       <p class="mt-8 text-white/35 text-xs tracking-wide max-w-xs mx-auto leading-relaxed">
         Ao clicar, você declara que leu as regras, aceita cafunés como moeda e sabe que não tem direito a arrependimento.
+      </p>
+      <a href="#nosso" class="inline-flex items-center gap-2 mt-14 text-white/50 hover:text-rose-mid text-xs uppercase tracking-[0.3em] transition-colors">
+        Mas espera… tem mais uma cláusula
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== PARTE 2: A VERDADEIRA PROPOSTA ========== -->
+
+  <!-- Transição -->
+  <section class="relative bg-night text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-40" style="background-image: radial-gradient(ellipse at 50% 0%, #8B4A52 0%, transparent 55%);"></div>
+    <div class="relative max-w-3xl mx-auto px-5 sm:px-6 py-20 md:py-28 text-center">
+      <p class="text-rose-mid text-[11px] uppercase tracking-[0.4em] font-medium mb-6 reveal">Cláusula secreta · não estava no anúncio</p>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight reveal">
+        O apartamento era só a desculpa.
+      </h2>
+      <div class="flex justify-center my-8 reveal"><div class="rose-line"></div></div>
+      <p class="text-white/60 font-light text-lg md:text-xl leading-relaxed max-w-xl mx-auto reveal">
+        Porque o que eu realmente quero te oferecer
+        <span class="text-white font-normal">não cabe em um aluguel</span>.
+        Cabe numa vida inteira.
+      </p>
+    </div>
+  </section>
+
+  <!-- Nós / Começo -->
+  <section id="nosso" class="hearts-bg border-t border-ink/5">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6 py-20 md:py-28">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div class="reveal order-2 lg:order-1">
+          <p class="text-[11px] uppercase tracking-[0.35em] text-rose-deep font-medium mb-4">19 de junho de 2021</p>
+          <h2 class="font-display text-4xl md:text-5xl font-semibold text-ink leading-tight mb-6">
+            Nossa primeira foto.
+            <span class="block italic font-normal text-rose-deep mt-2">O começo de tudo.</span>
+          </h2>
+          <p class="text-charcoal/75 font-light leading-relaxed text-base md:text-lg mb-6">
+            Olha só a gente ali — sorrindo como se o mundo inteiro coubesse naquele enquadramento.
+            E de certo modo coube: daquele dia em diante, a minha vida ganhou o seu nome.
+          </p>
+          <div class="inline-flex items-center gap-3 years-badge text-white px-5 py-3 rounded-full shadow-lg shadow-rose-deep/20">
+            <span class="text-2xl heart-pulse" aria-hidden="true">💕</span>
+            <div class="text-left">
+              <p class="text-[10px] uppercase tracking-widest opacity-80">Desde então</p>
+              <p class="font-display text-xl leading-none" id="years-label">anos de nós</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal order-1 lg:order-2 flex justify-center">
+          <figure
+            class="polaroid w-full max-w-sm -rotate-2 cursor-pointer"
+            data-lightbox="img/Nossas/nos01.jpeg"
+            data-caption="Nossa primeira foto juntos — 19 de junho de 2021"
+          >
+            <img src="img/Nossas/nos01.jpeg" alt="Nossa primeira foto juntos" />
+            <figcaption>19.06.2021 · O começo</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Film strip / memórias -->
+  <section class="bg-white border-y border-ink/5 py-16 md:py-24 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6 mb-8 text-center">
+      <p class="text-[11px] uppercase tracking-[0.35em] text-rose-deep font-medium mb-3 reveal">Álbum de nós</p>
+      <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink reveal">Momentos que eu guardo no peito</h2>
+      <p class="text-charcoal/55 mt-3 font-light text-sm reveal">Deslize para o lado · cada foto é um pedacinho da nossa história</p>
+      <div class="flex justify-center mt-5 reveal"><div class="rose-line"></div></div>
+    </div>
+
+    <div class="film-track" id="film-track">
+      <!-- polaroids with slight rotations -->
+      <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos02.jpeg" data-caption="Esse sorriso que eu amo demais">
+        <img src="img/Nossas/nos02.jpeg" alt="Esse sorriso que amo demais" loading="lazy" />
+        <figcaption>Esse sorriso que amo demais</figcaption>
+      </figure>
+      <figure class="film-item polaroid -rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos03.jpeg" data-caption="Sempre com muito amor">
+        <img src="img/Nossas/nos03.jpeg" alt="Sempre com muito amor" loading="lazy" />
+        <figcaption>Sempre com muito amor</figcaption>
+      </figure>
+      <figure class="film-item polaroid rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos04.jpeg" data-caption="Experiências e convivências, lado a lado">
+        <img src="img/Nossas/nos04.jpeg" alt="Lado a lado" loading="lazy" />
+        <figcaption>Lado a lado</figcaption>
+      </figure>
+      <figure class="film-item polaroid -rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos05.jpeg" data-caption="Vários rolês — 30 de dezembro de 2022">
+        <img src="img/Nossas/nos05.jpeg" alt="Vários rolês" loading="lazy" />
+        <figcaption>Vários rolês · 30.12.2022</figcaption>
+      </figure>
+      <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos06.jpeg" data-caption="Vários sorrisos">
+        <img src="img/Nossas/nos06.jpeg" alt="Vários sorrisos" loading="lazy" />
+        <figcaption>Vários sorrisos</figcaption>
+      </figure>
+      <figure class="film-item polaroid -rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos07.jpeg" data-caption="Brincadeiras">
+        <img src="img/Nossas/nos07.jpeg" alt="Brincadeiras" loading="lazy" />
+        <figcaption>Brincadeiras</figcaption>
+      </figure>
+      <figure class="film-item polaroid rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos08.jpeg" data-caption="Focados">
+        <img src="img/Nossas/nos08.jpeg" alt="Focados" loading="lazy" />
+        <figcaption>Focados</figcaption>
+      </figure>
+      <figure class="film-item polaroid -rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos09.jpeg" data-caption="Gordinhos">
+        <img src="img/Nossas/nos09.jpeg" alt="Gordinhos" loading="lazy" />
+        <figcaption>Gordinhos</figcaption>
+      </figure>
+      <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos10.jpeg" data-caption="Comidas">
+        <img src="img/Nossas/nos10.jpeg" alt="Comidas" loading="lazy" />
+        <figcaption>Comidas</figcaption>
+      </figure>
+      <figure class="film-item polaroid -rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos11.jpeg" data-caption="Mais comidas">
+        <img src="img/Nossas/nos11.jpeg" alt="Mais comidas" loading="lazy" />
+        <figcaption>Mais comidas</figcaption>
+      </figure>
+      <figure class="film-item polaroid rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos12.jpeg" data-caption="Ainda mais comidas">
+        <img src="img/Nossas/nos12.jpeg" alt="Ainda mais comidas" loading="lazy" />
+        <figcaption>Ainda mais comidas</figcaption>
+      </figure>
+      <figure class="film-item polaroid -rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos13.jpeg" data-caption="Muitas comidas">
+        <img src="img/Nossas/nos13.jpeg" alt="Muitas comidas" loading="lazy" />
+        <figcaption>Muitas comidas</figcaption>
+      </figure>
+      <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos14.jpeg" data-caption="Diversas despedidas nesse vai e vem de viagens">
+        <img src="img/Nossas/nos14.jpeg" alt="Despedidas e reencontros" loading="lazy" />
+        <figcaption>Despedidas &amp; reencontros</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Mosaic highlight -->
+  <section class="max-w-6xl mx-auto px-5 sm:px-6 py-16 md:py-24">
+    <div class="grid md:grid-cols-12 gap-4 md:gap-5">
+      <figure class="md:col-span-7 relative overflow-hidden rounded-sm group cursor-pointer reveal" data-lightbox="img/Nossas/nos03.jpeg" data-caption="Sempre com muito amor">
+        <div class="aspect-[16/10] md:aspect-auto md:h-full md:min-h-[380px]">
+          <img src="img/Nossas/nos03.jpeg" alt="Sempre com muito amor" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-night/70 via-transparent to-transparent"></div>
+        <figcaption class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+          <p class="text-white/70 text-[11px] uppercase tracking-[0.3em] mb-1">Collage da gente</p>
+          <p class="font-display text-2xl md:text-3xl text-white">Sempre com muito amor</p>
+        </figcaption>
+      </figure>
+      <div class="md:col-span-5 grid grid-rows-2 gap-4 md:gap-5">
+        <figure class="relative overflow-hidden rounded-sm group cursor-pointer reveal" data-lightbox="img/Nossas/nos02.jpeg" data-caption="Esse sorriso que eu amo demais">
+          <div class="aspect-[16/10] md:aspect-auto md:h-full">
+            <img src="img/Nossas/nos02.jpeg" alt="Sorriso" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-night/60 via-transparent to-transparent"></div>
+          <figcaption class="absolute bottom-0 p-5">
+            <p class="font-display text-xl text-white">Esse sorriso</p>
+            <p class="text-white/60 text-xs">que eu amo demais</p>
+          </figcaption>
+        </figure>
+        <figure class="relative overflow-hidden rounded-sm group cursor-pointer reveal" data-lightbox="img/Nossas/nos14.jpeg" data-caption="Diversas despedidas nesse vai e vem — e mesmo assim, sempre voltamos">
+          <div class="aspect-[16/10] md:aspect-auto md:h-full">
+            <img src="img/Nossas/nos14.jpeg" alt="Despedidas e reencontros" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-night/60 via-transparent to-transparent"></div>
+          <figcaption class="absolute bottom-0 p-5">
+            <p class="font-display text-xl text-white">Vai e vem</p>
+            <p class="text-white/60 text-xs">e mesmo assim, sempre nós</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Carta / Votos -->
+  <section class="bg-night text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(ellipse at 20% 30%, #8B4A52 0%, transparent 45%), radial-gradient(ellipse at 80% 80%, #C4A35A 0%, transparent 40%);"></div>
+    <div class="relative max-w-3xl mx-auto px-5 sm:px-6 py-20 md:py-32">
+      <div class="text-center mb-14 reveal">
+        <p class="text-rose-mid text-[11px] uppercase tracking-[0.4em] font-medium mb-4">A verdadeira proposta</p>
+        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
+          Alexandra,
+          <span class="block italic font-normal text-rose-mid mt-2">eu não quero só um inquilino.</span>
+        </h2>
+        <div class="flex justify-center mt-8"><div class="rose-line"></div></div>
+      </div>
+
+      <div class="space-y-6 text-white/75 font-light text-lg md:text-xl leading-relaxed reveal">
+        <p>
+          Eu quero passar o resto da minha vida ao seu lado.
+          Não como uma frase bonita de anúncio — como um plano de verdade.
+        </p>
+        <p>
+          Eu quero que você seja a <strong class="text-white font-medium">mãe dos meus filhos</strong>.
+          Que a gente brigue por besteira, peça desculpa rápido e ria da própria cara no dia seguinte.
+        </p>
+        <p>
+          Eu quero que você seja a <strong class="text-white font-medium">vó dos meus netos</strong> —
+          aquela que conta as histórias do “apartamento de cinco reais” e do menino teimoso que montou um site pra te conquistar de novo.
+        </p>
+        <p>
+          Eu quero você como
+          <strong class="text-white font-medium">parceira</strong>,
+          <strong class="text-white font-medium">companheira</strong>,
+          <strong class="text-white font-medium">namorada</strong>,
+          <strong class="text-white font-medium">esposa</strong> —
+          em todos os títulos que o amor inventar, e nos dias em que nem título for preciso:
+          só a gente, no sofá, dividindo o controle e a vida.
+        </p>
+        <p class="text-white font-normal">
+          Eu não preciso de mais ninguém na minha vida.
+          Você é o endereço. Você é a casa. Você é o “ficar”.
+        </p>
+      </div>
+
+      <!-- Lista de votos -->
+      <div class="mt-16 pt-12 border-t border-white/10">
+        <p class="text-center text-[11px] uppercase tracking-[0.35em] text-rose-mid font-medium mb-10 reveal">Promessas (sem letra miúda)</p>
+        <ul class="space-y-5">
+          <li class="vow reveal text-white/80 font-light leading-relaxed">
+            Escolher você de novo, todo dia — nos fáceis e nos difíceis.
+          </li>
+          <li class="vow reveal text-white/80 font-light leading-relaxed">
+            Ser o seu porto seguro nos vai e vens, e o seu cúmplice nas brincadeiras.
+          </li>
+          <li class="vow reveal text-white/80 font-light leading-relaxed">
+            Guardar cada sorriso (principalmente o que eu amo demais) como se fosse ouro.
+          </li>
+          <li class="vow reveal text-white/80 font-light leading-relaxed">
+            Construir com você uma mesa cheia — de comida, de conversa, de família.
+          </li>
+          <li class="vow reveal text-white/80 font-light leading-relaxed">
+            Envelhecer do seu lado: cabelos brancos, mãos dadas, mesma piada ruim de sempre.
+          </li>
+          <li class="vow reveal text-white/90 font-normal leading-relaxed">
+            Amar você. Ponto final. Sem prazo. Sem reajuste. Sem direito a arrependimento.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA final amor -->
+  <section id="para-sempre" class="relative overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="img/Nossas/nos01.jpeg" alt="" class="w-full h-full object-cover scale-110" aria-hidden="true" />
+      <div class="absolute inset-0 bg-gradient-to-b from-night/85 via-night/90 to-night"></div>
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-6 py-28 md:py-36 text-center">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full border border-rose-mid/40 bg-rose-deep/20 mb-8 reveal">
+        <span class="text-3xl heart-pulse" aria-hidden="true">💍</span>
+      </div>
+      <p class="text-rose-mid text-[11px] uppercase tracking-[0.4em] font-medium mb-5 reveal">
+        Contrato vitalício · sem rescisão
+      </p>
+      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 leading-tight reveal">
+        Quer passar o resto da vida
+        <span class="block italic font-normal text-rose-mid mt-2">comigo?</span>
+      </h2>
+      <p class="text-white/60 font-light max-w-md mx-auto mb-12 leading-relaxed reveal">
+        O aluguel é R$&nbsp;5. O amor é de graça.
+        <br />Mas a vaga de “para sempre”… essa é só sua.
+      </p>
+
+      <button
+        type="button"
+        id="btn-sempre"
+        class="love-glow inline-flex items-center justify-center gap-3 bg-rose-deep hover:bg-rose-mid text-white font-semibold text-base md:text-lg tracking-wide px-10 md:px-14 py-5 rounded-sm transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-rose-mid focus:ring-offset-2 focus:ring-offset-night reveal"
+      >
+        <span>Sim. Eu quero você para sempre.</span>
+      </button>
+
+      <p class="mt-10 text-white/30 text-xs tracking-wide reveal">
+        Alano + Alexandra · desde 19.06.2021 · e daqui pra frente, o resto
       </p>
     </div>
   </section>
@@ -484,14 +763,14 @@
       <div>
         <p class="font-display text-2xl text-white/85 tracking-wide">Imobiliária Alano</p>
         <p class="text-xs mt-1.5 tracking-wider uppercase text-white/35">
-          Onde o aluguel é simbólico e o convite é de verdade
+          Onde o aluguel é simbólico e o “sim” é pra vida toda
         </p>
       </div>
       <p class="text-xs leading-relaxed">
-        © 2026 · Feito com carinho (e um pouco de ousadia)
+        © 2026 · Feito com amor (e um pouco de ousadia)
         <br class="sm:hidden" />
         <span class="hidden sm:inline"> · </span>
-        Todos os cafunés reservados
+        Todos os cafunés e promessas reservados
       </p>
     </div>
   </footer>
@@ -500,21 +779,57 @@
   <div id="lightbox" class="fixed inset-0 z-[100] bg-ink/90 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Visualização da foto">
     <button type="button" id="lightbox-close" class="absolute top-5 right-5 text-white/70 hover:text-white text-3xl leading-none w-10 h-10 flex items-center justify-center" aria-label="Fechar">&times;</button>
     <div class="max-w-5xl w-full">
-      <img id="lightbox-img" src="" alt="" class="max-h-[80vh] w-full object-contain rounded-sm shadow-2xl" />
-      <p id="lightbox-caption" class="text-center text-white/70 text-sm mt-4 font-light"></p>
+      <img id="lightbox-img" src="" alt="" class="max-h-[80vh] w-full object-contain rounded-sm shadow-2xl mx-auto" />
+      <p id="lightbox-caption" class="text-center text-white/70 text-sm mt-4 font-light font-display text-lg"></p>
     </div>
   </div>
 
   <script>
-    // CTA
+    // Contador de anos desde 19/06/2021
+    (function () {
+      var start = new Date(2021, 5, 19); // mês 0-index
+      var now = new Date();
+      var years = now.getFullYear() - start.getFullYear();
+      var m = now.getMonth() - start.getMonth();
+      if (m < 0 || (m === 0 && now.getDate() < start.getDate())) years--;
+      var el = document.getElementById('years-label');
+      if (el) {
+        el.textContent = years + (years === 1 ? ' ano de nós' : ' anos de nós');
+      }
+    })();
+
+    // Reveal on scroll
+    (function () {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('visible'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+
+    // CTA aluguel
     document.getElementById('btn-alugar').addEventListener('click', function () {
-      alert('Contrato assinado com sucesso! Sem direito a arrependimento, viu?\n\n(Agora é oficial: as chaves — e o sofá — são seus também. 💛)');
+      alert('Contrato assinado com sucesso! Sem direito a arrependimento, viu?\n\n(Agora é oficial: as chaves — e o sofá — são seus também. 💛)\n\nMas continua rolando… tem uma cláusula secreta mais embaixo 👀');
+    });
+
+    // CTA para sempre
+    document.getElementById('btn-sempre').addEventListener('click', function () {
+      alert('Pedido registrado no cartório do coração. 💍\n\nAlexandra, eu te escolho: parceira, companheira, namorada, esposa — mãe dos nossos filhos, vó dos nossos netos.\n\nPara sempre. Sem reajuste. Sem arrependimento.\n\nEu te amo. — Alano');
     });
 
     // Lightbox
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxCaption = document.getElementById('lightbox-caption');
+    var lightbox = document.getElementById('lightbox');
+    var lightboxImg = document.getElementById('lightbox-img');
+    var lightboxCaption = document.getElementById('lightbox-caption');
 
     function openLightbox(src, caption) {
       lightboxImg.src = src;
