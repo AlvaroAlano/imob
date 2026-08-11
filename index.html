@@ -149,7 +149,40 @@
       padding-bottom: env(safe-area-inset-bottom, 0px);
     }
     #lightbox.open { opacity: 1; pointer-events: auto; }
-    body.lightbox-open { overflow: hidden; position: fixed; inset: 0; width: 100%; }
+    body.modal-open { overflow: hidden; position: fixed; inset: 0; width: 100%; }
+
+    /* Site modal (substitui alert do navegador) */
+    #site-modal {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+      height: 100%;
+      min-height: 100dvh;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    #site-modal.open { opacity: 1; pointer-events: auto; }
+    #site-modal .modal-panel {
+      transform: translate3d(0, 18px, 0) scale(0.96);
+      opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+    }
+    #site-modal.open .modal-panel {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+    }
+    #site-modal.theme-gold .modal-accent { color: #A68B3D; }
+    #site-modal.theme-gold .modal-btn {
+      background: #C4A35A;
+      color: #1A1A1A;
+    }
+    #site-modal.theme-gold .modal-btn:active { background: #D4BC7D; }
+    #site-modal.theme-rose .modal-accent { color: #8B4A52; }
+    #site-modal.theme-rose .modal-btn {
+      background: #8B4A52;
+      color: #fff;
+    }
+    #site-modal.theme-rose .modal-btn:active { background: #C47880; }
 
     .badge-ribbon { letter-spacing: 0.18em; }
     @media (min-width: 640px) {
@@ -881,6 +914,24 @@
     </div>
   </div>
 
+  <!-- Modal do site (contrato / promessa) -->
+  <div id="site-modal" class="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-6 safe-x" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-body" aria-hidden="true">
+    <div id="site-modal-backdrop" class="absolute inset-0 bg-ink/55 backdrop-blur-sm"></div>
+    <div class="modal-panel relative w-full max-w-[22rem] sm:max-w-md bg-cream border border-ink/10 shadow-2xl shadow-ink/25 rounded-sm overflow-hidden">
+      <div class="px-6 sm:px-8 pt-7 sm:pt-8 pb-6 text-center">
+        <div id="modal-emoji" class="text-3xl sm:text-4xl mb-3 heart-pulse" aria-hidden="true">💛</div>
+        <p id="modal-kicker" class="modal-accent text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium mb-2">Imobiliária Alano</p>
+        <h3 id="modal-title" class="font-display text-2xl sm:text-3xl font-semibold text-ink leading-tight mb-4">Título</h3>
+        <div id="modal-body" class="text-charcoal/75 font-light text-sm sm:text-base leading-relaxed space-y-3 text-left sm:text-center"></div>
+      </div>
+      <div class="px-6 sm:px-8 pb-6 sm:pb-8">
+        <button type="button" id="modal-ok" class="modal-btn cta-btn w-full inline-flex items-center justify-center min-h-[52px] rounded-sm font-semibold text-sm sm:text-base tracking-wide focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gold">
+          Entendi
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Anos desde 19/06/2021
     (function () {
@@ -911,28 +962,99 @@
       els.forEach(function (el) { io.observe(el); });
     })();
 
+    // Scroll lock (iOS-safe) compartilhado
+    var scrollY = 0;
+    function lockScroll() {
+      scrollY = window.scrollY || window.pageYOffset;
+      document.body.classList.add('modal-open');
+      document.body.style.top = '-' + scrollY + 'px';
+    }
+    function unlockScroll() {
+      document.body.classList.remove('modal-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollY);
+    }
+
+    // Modal do site
+    var siteModal = document.getElementById('site-modal');
+    var modalTitle = document.getElementById('modal-title');
+    var modalBody = document.getElementById('modal-body');
+    var modalEmoji = document.getElementById('modal-emoji');
+    var modalKicker = document.getElementById('modal-kicker');
+    var modalOk = document.getElementById('modal-ok');
+    var modalOnClose = null;
+
+    function openSiteModal(opts) {
+      opts = opts || {};
+      siteModal.classList.remove('theme-gold', 'theme-rose');
+      siteModal.classList.add(opts.theme === 'rose' ? 'theme-rose' : 'theme-gold');
+      modalEmoji.textContent = opts.emoji || '💛';
+      modalKicker.textContent = opts.kicker || 'Imobiliária Alano';
+      modalTitle.textContent = opts.title || '';
+      modalBody.innerHTML = opts.bodyHtml || '';
+      modalOk.textContent = opts.okLabel || 'Entendi';
+      modalOnClose = typeof opts.onClose === 'function' ? opts.onClose : null;
+      lockScroll();
+      siteModal.classList.add('open');
+      siteModal.setAttribute('aria-hidden', 'false');
+      setTimeout(function () { modalOk.focus(); }, 50);
+    }
+
+    function closeSiteModal() {
+      siteModal.classList.remove('open');
+      siteModal.setAttribute('aria-hidden', 'true');
+      unlockScroll();
+      var cb = modalOnClose;
+      modalOnClose = null;
+      if (cb) cb();
+    }
+
+    modalOk.addEventListener('click', closeSiteModal);
+    document.getElementById('site-modal-backdrop').addEventListener('click', closeSiteModal);
+
     // CTAs
     document.getElementById('btn-alugar').addEventListener('click', function () {
-      alert('Contrato assinado com sucesso! Sem direito a arrependimento, viu?\n\n(Agora é oficial: as chaves e o sofá são seus também. 💛)\n\nMas continua rolando… tem uma cláusula secreta mais embaixo 👀');
+      openSiteModal({
+        theme: 'gold',
+        emoji: '📝',
+        kicker: 'Contrato de locação',
+        title: 'Contrato assinado com sucesso!',
+        bodyHtml:
+          '<p class="text-center">Sem direito a arrependimento, viu?</p>' +
+          '<p class="text-center text-charcoal/70">(Agora é oficial: as chaves e o sofá são seus também. 💛)</p>' +
+          '<p class="text-center text-sm text-charcoal/55 pt-1">Mas continua rolando… tem uma cláusula secreta mais embaixo 👀</p>',
+        okLabel: 'Continuar rolando ↓',
+        onClose: function () {
+          var target = document.getElementById('nosso');
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
     });
 
     document.getElementById('btn-sempre').addEventListener('click', function () {
-      alert('Promessa registrada. 💛\n\nIsso aqui não acaba.\nEu luto por nós e vai dar tudo certo.\n\nTe amo.\nAlano');
+      openSiteModal({
+        theme: 'rose',
+        emoji: '💛',
+        kicker: 'Promessa de verdade',
+        title: 'Promessa registrada.',
+        bodyHtml:
+          '<p class="text-center">Isso aqui não acaba.</p>' +
+          '<p class="text-center">Eu luto por nós e vai dar tudo certo.</p>' +
+          '<p class="text-center font-display text-lg text-ink pt-1">Te amo.<br/><span class="text-base text-charcoal/60">Alano</span></p>',
+        okLabel: 'Eu também 💛'
+      });
     });
 
-    // Lightbox (iOS-safe scroll lock)
+    // Lightbox
     var lightbox = document.getElementById('lightbox');
     var lightboxImg = document.getElementById('lightbox-img');
     var lightboxCaption = document.getElementById('lightbox-caption');
-    var scrollY = 0;
 
     function openLightbox(src, caption) {
       lightboxImg.src = src;
       lightboxImg.alt = caption || '';
       lightboxCaption.textContent = caption || '';
-      scrollY = window.scrollY || window.pageYOffset;
-      document.body.classList.add('lightbox-open');
-      document.body.style.top = '-' + scrollY + 'px';
+      lockScroll();
       lightbox.classList.add('open');
       lightbox.setAttribute('aria-hidden', 'false');
     }
@@ -940,9 +1062,7 @@
     function closeLightbox() {
       lightbox.classList.remove('open');
       lightbox.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('lightbox-open');
-      document.body.style.top = '';
-      window.scrollTo(0, scrollY);
+      unlockScroll();
       lightboxImg.removeAttribute('src');
     }
 
@@ -957,7 +1077,9 @@
       if (e.target === lightbox) closeLightbox();
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeLightbox();
+      if (e.key !== 'Escape') return;
+      if (siteModal.classList.contains('open')) closeSiteModal();
+      else if (lightbox.classList.contains('open')) closeLightbox();
     });
   </script>
 </body>
