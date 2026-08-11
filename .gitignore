@@ -1,0 +1,4 @@
+mobile-preview/
+node_modules/
+package-lock.json
+_*.js
