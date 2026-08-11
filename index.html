@@ -149,7 +149,20 @@
       padding-bottom: env(safe-area-inset-bottom, 0px);
     }
     #lightbox.open { opacity: 1; pointer-events: auto; }
-    body.modal-open { overflow: hidden; position: fixed; inset: 0; width: 100%; }
+    /* Trava scroll sem pular a página ao abrir/fechar modal e lightbox */
+    html.modal-open,
+    body.modal-open {
+      overflow: hidden !important;
+      overscroll-behavior: none;
+      touch-action: none;
+    }
+    body.modal-open {
+      position: fixed;
+      left: 0;
+      right: 0;
+      width: 100%;
+      /* top é definido via JS com o offset atual */
+    }
 
     /* Site modal (substitui alert do navegador) */
     #site-modal {
@@ -538,7 +551,7 @@
           <span class="text-gold shrink-0 mt-0.5" aria-hidden="true">▸</span>
           <span class="text-charcoal/85 text-sm sm:text-base leading-relaxed font-light">
             Assistir vídeos do <strong class="font-medium text-ink">Cariano</strong> e
-            <strong class="font-medium text-ink">Bitcoin</strong> (com o Alvinho explicando “só mais um minutinho”)
+            <strong class="font-medium text-ink">Bistecone</strong>
           </span>
         </li>
         <li class="flex gap-3 items-start bg-cream/80 border border-ink/5 px-4 py-3 rounded-sm">
@@ -1019,17 +1032,29 @@
       els.forEach(function (el) { io.observe(el); });
     })();
 
-    // Scroll lock (iOS-safe) compartilhado
-    var scrollY = 0;
+    // Scroll lock estável (sem pular pro topo ao abrir/fechar)
+    var savedScrollY = 0;
+    var scrollLockCount = 0;
+
     function lockScroll() {
-      scrollY = window.scrollY || window.pageYOffset;
-      document.body.classList.add('modal-open');
-      document.body.style.top = '-' + scrollY + 'px';
+      if (scrollLockCount === 0) {
+        savedScrollY = window.scrollY || window.pageYOffset || 0;
+        document.documentElement.classList.add('modal-open');
+        document.body.classList.add('modal-open');
+        document.body.style.top = '-' + savedScrollY + 'px';
+      }
+      scrollLockCount += 1;
     }
+
     function unlockScroll() {
+      scrollLockCount = Math.max(0, scrollLockCount - 1);
+      if (scrollLockCount > 0) return;
+
+      document.documentElement.classList.remove('modal-open');
       document.body.classList.remove('modal-open');
       document.body.style.top = '';
-      window.scrollTo(0, scrollY);
+      // restaura exatamente onde estava (sem animação que “pula”)
+      window.scrollTo(0, savedScrollY);
     }
 
     // Modal do site
@@ -1054,16 +1079,27 @@
       lockScroll();
       siteModal.classList.add('open');
       siteModal.setAttribute('aria-hidden', 'false');
-      setTimeout(function () { modalOk.focus(); }, 50);
+      // preventScroll evita o iOS “puxar” a página pro botão focado
+      try {
+        modalOk.focus({ preventScroll: true });
+      } catch (e) {
+        /* ignore */
+      }
     }
 
     function closeSiteModal() {
+      if (!siteModal.classList.contains('open')) return;
       siteModal.classList.remove('open');
       siteModal.setAttribute('aria-hidden', 'true');
       unlockScroll();
       var cb = modalOnClose;
       modalOnClose = null;
-      if (cb) cb();
+      if (cb) {
+        // roda depois de restaurar o scroll, no próximo frame
+        requestAnimationFrame(function () {
+          requestAnimationFrame(cb);
+        });
+      }
     }
 
     modalOk.addEventListener('click', closeSiteModal);
@@ -1078,7 +1114,7 @@
         title: 'Contrato assinado com sucesso!',
         bodyHtml:
           '<p class="text-center">Sem direito a arrependimento, viu?</p>' +
-          '<p class="text-center text-charcoal/70">(Agora é oficial: as chaves e o sofá são seus também. 💛)</p>' +
+          '<p class="text-center text-charcoal/70">Agora é oficial: as chaves e o sofá são seus também. 💛</p>' +
           '<p class="text-center text-sm text-charcoal/55 pt-1">Mas continua rolando… tem uma cláusula secreta mais embaixo 👀</p>',
         okLabel: 'Continuar rolando ↓',
         onClose: function () {
@@ -1117,6 +1153,7 @@
     }
 
     function closeLightbox() {
+      if (!lightbox.classList.contains('open')) return;
       lightbox.classList.remove('open');
       lightbox.setAttribute('aria-hidden', 'true');
       unlockScroll();
@@ -1124,7 +1161,8 @@
     }
 
     document.querySelectorAll('[data-lightbox]').forEach(function (el) {
-      el.addEventListener('click', function () {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
         openLightbox(el.getAttribute('data-lightbox'), el.getAttribute('data-caption'));
       });
     });
