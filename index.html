@@ -2,7 +2,11 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5" />
+  <meta name="theme-color" content="#F7F4EF" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="format-detection" content="telephone=no" />
   <title>Para você · Alano &amp; Alexandra</title>
   <meta name="description" content="Você pediu um aluguel de R$ 5. Eu achei o apartamento… e uma proposta muito maior." />
   <meta property="og:title" content="Apartamento por R$ 5… e algo mais · Alano" />
@@ -19,7 +23,7 @@
         extend: {
           fontFamily: {
             display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-            sans: ['Inter', 'system-ui', 'sans-serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
           },
           colors: {
             cream: '#F7F4EF',
@@ -35,111 +39,197 @@
     };
   </script>
   <style>
-    html { scroll-behavior: smooth; }
-    .hero-overlay {
-      background: linear-gradient(180deg, rgba(26,26,26,0.45) 0%, rgba(26,26,26,0.72) 55%, rgba(26,26,26,0.92) 100%);
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
+
+    body {
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overscroll-behavior-y: none;
+    }
+
+    /* iOS tap & selection */
+    a, button, [data-lightbox] {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      -webkit-user-drag: none;
+    }
+
+    /* Safe areas (iPhone notch / home bar) */
+    .safe-top { padding-top: env(safe-area-inset-top, 0px); }
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .safe-x {
+      padding-left: max(1.25rem, env(safe-area-inset-left, 0px));
+      padding-right: max(1.25rem, env(safe-area-inset-right, 0px));
+    }
+
+    /* Full viewport on mobile browsers */
+    .min-h-screen-mobile {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .hero-overlay {
+      background: linear-gradient(
+        180deg,
+        rgba(26,26,26,0.4) 0%,
+        rgba(26,26,26,0.68) 50%,
+        rgba(26,26,26,0.94) 100%
+      );
+    }
+
     .gold-line {
-      width: 72px; height: 2px;
+      width: 56px; height: 2px;
       background: linear-gradient(90deg, transparent, #C4A35A, transparent);
     }
     .rose-line {
-      width: 72px; height: 2px;
+      width: 56px; height: 2px;
       background: linear-gradient(90deg, transparent, #C47880, transparent);
     }
+
+    /* Gallery: softer on touch devices */
     .gallery-card {
-      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      will-change: transform;
     }
-    .gallery-card:hover {
-      transform: translateY(-4px) scale(1.01);
-      box-shadow: 0 24px 48px rgba(0,0,0,0.18);
+    @media (hover: hover) and (pointer: fine) {
+      .gallery-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 36px rgba(0,0,0,0.14);
+      }
+      .gallery-card img {
+        transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .gallery-card:hover img { transform: scale(1.05); }
     }
-    .gallery-card img { transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
-    .gallery-card:hover img { transform: scale(1.06); }
-    .cta-glow:hover {
-      box-shadow: 0 0 0 4px rgba(196, 163, 90, 0.28), 0 16px 48px rgba(196, 163, 90, 0.45);
+    .gallery-card:active { transform: scale(0.985); }
+
+    .cta-btn {
+      min-height: 52px;
+      transition: transform 0.2s ease, box-shadow 0.25s ease, background-color 0.2s ease;
     }
-    .love-glow:hover {
-      box-shadow: 0 0 0 4px rgba(196, 120, 128, 0.3), 0 16px 48px rgba(139, 74, 82, 0.4);
+    .cta-btn:active { transform: scale(0.97); }
+    .cta-glow:active,
+    .cta-glow:focus-visible {
+      box-shadow: 0 0 0 4px rgba(196, 163, 90, 0.28), 0 12px 32px rgba(196, 163, 90, 0.4);
     }
-    .heart-pulse { animation: heartPulse 1.6s ease-in-out infinite; }
+    .love-glow:active,
+    .love-glow:focus-visible {
+      box-shadow: 0 0 0 4px rgba(196, 120, 128, 0.3), 0 12px 32px rgba(139, 74, 82, 0.4);
+    }
+
+    .heart-pulse { animation: heartPulse 1.8s ease-in-out infinite; }
     @keyframes heartPulse {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.12); }
+      50% { transform: scale(1.1); }
     }
+
+    /* Lightbox iOS-friendly */
     #lightbox {
-      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+      height: 100%;
+      min-height: 100dvh;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
     }
     #lightbox.open { opacity: 1; pointer-events: auto; }
-    .badge-ribbon { letter-spacing: 0.28em; }
+    body.lightbox-open { overflow: hidden; position: fixed; inset: 0; width: 100%; }
+
+    .badge-ribbon { letter-spacing: 0.18em; }
+    @media (min-width: 640px) {
+      .badge-ribbon { letter-spacing: 0.28em; }
+    }
 
     /* Polaroid */
     .polaroid {
       background: #fff;
-      padding: 0.65rem 0.65rem 2.25rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
-      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+      padding: 0.55rem 0.55rem 1.85rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      -webkit-transform: translateZ(0);
     }
-    .polaroid:hover {
-      transform: translateY(-8px) rotate(0deg) !important;
-      box-shadow: 0 22px 50px rgba(0,0,0,0.18);
-      z-index: 5;
+    @media (hover: hover) and (pointer: fine) {
+      .polaroid:hover {
+        transform: translateY(-6px) rotate(0deg) !important;
+        box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+        z-index: 5;
+      }
     }
-    .polaroid img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+    .polaroid:active { transform: scale(0.98) rotate(0deg) !important; }
+    .polaroid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      border-radius: 1px;
+    }
     .polaroid figcaption {
       font-family: "Cormorant Garamond", Georgia, serif;
       text-align: center;
-      margin-top: 0.65rem;
-      font-size: 0.95rem;
+      margin-top: 0.55rem;
+      font-size: 0.9rem;
       color: #2C2C2C;
-      line-height: 1.3;
+      line-height: 1.25;
+      padding: 0 0.25rem;
     }
 
-    /* Film strip scroll */
+    /* Film strip: buttery iOS scroll */
     .film-track {
       display: flex;
-      gap: 1rem;
+      gap: 0.85rem;
       overflow-x: auto;
+      overflow-y: hidden;
       scroll-snap-type: x mandatory;
-      padding: 1.5rem 1.25rem 2rem;
+      scroll-padding-inline: 1.25rem;
+      padding: 1.25rem 1.25rem 1.75rem;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;
-      scrollbar-color: #C47880 transparent;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      touch-action: pan-x;
     }
-    .film-track::-webkit-scrollbar { height: 6px; }
-    .film-track::-webkit-scrollbar-thumb { background: #C47880; border-radius: 99px; }
+    .film-track::-webkit-scrollbar { display: none; }
     .film-item {
-      flex: 0 0 min(78vw, 280px);
+      flex: 0 0 min(72vw, 260px);
       scroll-snap-align: center;
     }
+    @media (min-width: 640px) {
+      .film-item { flex-basis: min(42vw, 280px); }
+      .film-track { gap: 1rem; scrollbar-width: thin; scrollbar-color: #C47880 transparent; }
+      .film-track::-webkit-scrollbar { display: block; height: 5px; }
+      .film-track::-webkit-scrollbar-thumb { background: #C47880; border-radius: 99px; }
+    }
 
-    /* Reveal on scroll */
+    /* Reveal: lighter on mobile */
     .reveal {
       opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translate3d(0, 18px, 0);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .reveal.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: translate3d(0, 0, 0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .heart-pulse { animation: none; }
     }
 
-    /* Vow cards */
-    .vow {
-      position: relative;
-      padding-left: 1.25rem;
-    }
-    .vow::before {
-      content: "";
-      position: absolute;
-      left: 0; top: 0.45rem;
-      width: 6px; height: 6px;
-      border-radius: 999px;
-      background: #C47880;
-      box-shadow: 0 0 0 4px rgba(196, 120, 128, 0.18);
-    }
-
-    /* Floating hearts bg */
     .hearts-bg {
       background-image:
         radial-gradient(ellipse at 15% 20%, rgba(196,120,128,0.12) 0%, transparent 45%),
@@ -147,77 +237,113 @@
         radial-gradient(ellipse at 50% 100%, rgba(232,213,208,0.5) 0%, transparent 50%);
     }
 
-    /* Typewriter-ish counter */
     .years-badge {
       background: linear-gradient(135deg, #8B4A52 0%, #C47880 100%);
+    }
+
+    /* Mobile nav chips */
+    .chip-nav {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .chip-nav::-webkit-scrollbar { display: none; }
+    .chip-nav a {
+      flex-shrink: 0;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(26,26,26,0.08);
+      color: rgba(44,44,44,0.75);
+      background: rgba(255,255,255,0.7);
+      white-space: nowrap;
+    }
+    .chip-nav a.chip-rose {
+      border-color: rgba(196,120,128,0.45);
+      color: #8B4A52;
+      background: rgba(243,230,227,0.9);
     }
   </style>
 </head>
 <body class="bg-cream text-ink font-sans antialiased">
 
   <!-- Header -->
-  <header class="fixed top-0 inset-x-0 z-50 bg-cream/90 backdrop-blur-md border-b border-ink/5">
-    <div class="max-w-6xl mx-auto px-5 sm:px-6 py-4 flex items-center justify-between">
-      <a href="#" class="group">
-        <span class="font-display text-2xl md:text-3xl tracking-wide text-ink font-semibold group-hover:text-gold transition-colors duration-300">
-          Imobiliária Alano
-        </span>
-        <span class="block text-[10px] uppercase tracking-[0.35em] text-gold-dark mt-0.5 font-medium">
-          Especialistas em “achados impossíveis”
-        </span>
-      </a>
-      <nav class="hidden sm:flex items-center gap-6 text-sm tracking-wide text-charcoal/75">
-        <a href="#galeria" class="hover:text-gold transition-colors">Tour</a>
-        <a href="#regras" class="hover:text-gold transition-colors">Regras</a>
-        <a href="#cta" class="hover:text-gold transition-colors">Alugar</a>
-        <a href="#nosso" class="px-4 py-2 rounded-full border border-rose-mid/40 text-rose-deep hover:bg-rose-mid hover:text-white transition-all text-xs uppercase tracking-widest font-medium">
+  <header class="fixed top-0 inset-x-0 z-50 bg-cream/95 backdrop-blur-xl border-b border-ink/5 safe-top">
+    <div class="max-w-6xl mx-auto safe-x py-3 sm:py-4">
+      <div class="flex items-center justify-between gap-3">
+        <a href="#" class="min-w-0">
+          <span class="font-display text-[1.35rem] sm:text-2xl md:text-3xl tracking-wide text-ink font-semibold block truncate">
+            Imobiliária Alano
+          </span>
+          <span class="block text-[9px] sm:text-[10px] uppercase tracking-[0.22em] sm:tracking-[0.35em] text-gold-dark mt-0.5 font-medium">
+            Achados impossíveis
+          </span>
+        </a>
+        <a href="#nosso" class="hidden sm:inline-flex px-4 py-2 rounded-full border border-rose-mid/40 text-rose-deep hover:bg-rose-mid hover:text-white transition-all text-xs uppercase tracking-widest font-medium shrink-0">
           Nós
         </a>
+      </div>
+      <!-- Mobile quick nav -->
+      <nav class="chip-nav mt-2.5 sm:hidden" aria-label="Navegação">
+        <a href="#galeria">Tour</a>
+        <a href="#regras">Regras</a>
+        <a href="#cta">Alugar</a>
+        <a href="#nosso" class="chip-rose">Nós 💛</a>
       </nav>
     </div>
   </header>
 
-  <!-- ========== PARTE 1: A BRINCADEIRA DO APARTAMENTO ========== -->
+  <!-- ========== PARTE 1: APARTAMENTO ========== -->
 
-  <!-- Hero -->
-  <section class="relative min-h-[92vh] flex items-end sm:items-center justify-center pt-16">
+  <section class="relative min-h-screen-mobile flex items-end justify-center pt-28 sm:pt-20 sm:items-center">
     <div class="absolute inset-0">
-      <img src="img/foto4.jpeg" alt="Sala do apartamento" class="w-full h-full object-cover" />
+      <img
+        src="img/foto4.jpeg"
+        alt="Sala do apartamento"
+        class="w-full h-full object-cover"
+        fetchpriority="high"
+        decoding="async"
+      />
       <div class="absolute inset-0 hero-overlay"></div>
     </div>
 
-    <div class="relative z-10 max-w-4xl mx-auto px-5 sm:px-6 text-center text-white pb-28 sm:pb-24 pt-24">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/40 bg-white/5 backdrop-blur-sm mb-7">
-        <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
-        <span class="text-gold-light text-[11px] uppercase badge-ribbon font-medium">
+    <div class="relative z-10 max-w-4xl mx-auto safe-x text-center text-white pb-24 sm:pb-24 pt-8 w-full">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-gold/40 bg-white/10 backdrop-blur-sm mb-5 sm:mb-7">
+        <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse shrink-0"></span>
+        <span class="text-gold-light text-[10px] sm:text-[11px] uppercase badge-ribbon font-medium">
           Encontramos o que você pediu
         </span>
       </div>
 
-      <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-semibold leading-[1.1] mb-4">
+      <h1 class="font-display text-[2.15rem] leading-[1.12] sm:text-5xl md:text-6xl lg:text-[4.25rem] font-semibold mb-3 sm:mb-4 px-1">
         Apartamento Exclusivo
       </h1>
-      <p class="font-display italic text-gold-light text-2xl sm:text-3xl md:text-4xl font-normal mb-8">
+      <p class="font-display italic text-gold-light text-xl sm:text-3xl md:text-4xl font-normal mb-6 sm:mb-8 px-2">
         Oportunidade Única e Irrecusável
       </p>
 
-      <div class="flex justify-center my-6"><div class="gold-line"></div></div>
+      <div class="flex justify-center my-5 sm:my-6"><div class="gold-line"></div></div>
 
-      <p class="text-white/75 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed">
+      <p class="text-white/80 text-[0.95rem] sm:text-lg max-w-xl mx-auto font-light leading-relaxed px-1">
         Alguém disse que alugaria um apartamento se achasse um por
         <span class="text-gold-light font-medium">R$&nbsp;5</span>.
-        <br class="hidden sm:block" />
+        <br />
         Então… nós demos um jeito. 💛
       </p>
 
-      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="#cta" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-ink font-semibold px-8 py-3.5 rounded-sm transition-all cta-glow text-sm tracking-wide">
+      <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full max-w-sm sm:max-w-none mx-auto">
+        <a href="#cta" class="cta-btn cta-glow inline-flex items-center justify-center gap-2 bg-gold hover:bg-gold-light text-ink font-semibold px-6 py-3.5 rounded-sm text-sm tracking-wide w-full sm:w-auto">
           Quero ver a proposta
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </a>
-        <a href="#galeria" class="text-sm text-white/70 hover:text-white border-b border-white/30 hover:border-white pb-0.5 transition-all tracking-wide">
+        <a href="#galeria" class="inline-flex items-center justify-center min-h-[44px] text-sm text-white/75 active:text-white border-b border-white/25 pb-0.5 tracking-wide">
           Ver o tour do imóvel
         </a>
       </div>
@@ -225,29 +351,29 @@
   </section>
 
   <!-- Preço -->
-  <section class="relative -mt-16 z-20 px-5 sm:px-6">
-    <div class="max-w-4xl mx-auto bg-white shadow-2xl shadow-ink/15 border border-ink/5 rounded-sm overflow-hidden">
-      <div class="bg-gradient-to-r from-gold/15 via-blush/40 to-gold/15 px-4 py-2.5 text-center border-b border-ink/5">
-        <p class="text-[11px] uppercase tracking-[0.28em] text-gold-dark font-medium">
+  <section class="relative -mt-12 sm:-mt-16 z-20 safe-x">
+    <div class="max-w-4xl mx-auto bg-white shadow-2xl shadow-ink/12 border border-ink/5 rounded-sm overflow-hidden">
+      <div class="bg-gradient-to-r from-gold/15 via-blush/40 to-gold/15 px-3 py-2.5 text-center border-b border-ink/5">
+        <p class="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.28em] text-gold-dark font-medium leading-snug">
           ✨ Condição especial · válida só para uma pessoa
         </p>
       </div>
-      <div class="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-ink/5">
-        <div class="p-8 md:p-10 text-center">
-          <p class="text-[11px] uppercase tracking-[0.3em] text-gold-dark font-medium mb-3">Aluguel</p>
-          <p class="font-display text-5xl md:text-6xl font-semibold text-ink leading-none">
+      <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-ink/5">
+        <div class="p-6 sm:p-8 md:p-10 text-center">
+          <p class="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-gold-dark font-medium mb-2">Aluguel</p>
+          <p class="font-display text-5xl sm:text-5xl md:text-6xl font-semibold text-ink leading-none">
             R$&nbsp;5<span class="text-2xl align-top">,00</span>
           </p>
           <p class="text-charcoal/55 text-sm mt-2 tracking-wide">por mês · sem reajuste (de coração)</p>
         </div>
-        <div class="p-8 md:p-10 flex flex-col justify-center text-center">
-          <p class="text-[11px] uppercase tracking-[0.3em] text-gold-dark font-medium mb-3">Condomínio</p>
+        <div class="p-6 sm:p-8 md:p-10 flex flex-col justify-center text-center">
+          <p class="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-gold-dark font-medium mb-2">Condomínio</p>
           <p class="font-display text-3xl font-semibold text-ink">R$ 0,00</p>
           <p class="text-charcoal/50 text-xs mt-2 leading-relaxed">Zero. Nada. Nem taxa de “fundo de amigos”.</p>
         </div>
-        <div class="p-8 md:p-10 flex flex-col justify-center text-center">
-          <p class="text-[11px] uppercase tracking-[0.3em] text-gold-dark font-medium mb-3">IPTU</p>
-          <p class="font-display text-2xl md:text-3xl font-semibold text-ink leading-snug">Pago em cafunés</p>
+        <div class="p-6 sm:p-8 md:p-10 flex flex-col justify-center text-center">
+          <p class="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-gold-dark font-medium mb-2">IPTU</p>
+          <p class="font-display text-2xl sm:text-2xl md:text-3xl font-semibold text-ink leading-snug">Pago em cafunés</p>
           <p class="text-charcoal/50 text-xs mt-2 leading-relaxed">Recibo emitido em abraços e sorrisos.</p>
         </div>
       </div>
@@ -255,91 +381,91 @@
   </section>
 
   <!-- Destaques -->
-  <section class="max-w-6xl mx-auto px-5 sm:px-6 pt-16 md:pt-20">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-      <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
-        <p class="text-2xl mb-1">🛋️</p>
-        <p class="text-sm font-medium text-ink">Sala aconchegante</p>
-        <p class="text-xs text-charcoal/50 mt-1">Sofá liberado para maratonas</p>
+  <section class="max-w-6xl mx-auto safe-x pt-12 sm:pt-16 md:pt-20">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
+      <div class="bg-white border border-ink/5 rounded-sm p-4 sm:p-5 text-center active:border-gold/40 transition-colors">
+        <p class="text-xl sm:text-2xl mb-1" aria-hidden="true">🛋️</p>
+        <p class="text-xs sm:text-sm font-medium text-ink leading-snug">Sala aconchegante</p>
+        <p class="text-[11px] sm:text-xs text-charcoal/50 mt-1 leading-snug">Sofá liberado para maratonas</p>
       </div>
-      <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
-        <p class="text-2xl mb-1">🍳</p>
-        <p class="text-sm font-medium text-ink">Cozinha completa</p>
-        <p class="text-xs text-charcoal/50 mt-1">Pronta pro café da manhã a dois</p>
+      <div class="bg-white border border-ink/5 rounded-sm p-4 sm:p-5 text-center active:border-gold/40 transition-colors">
+        <p class="text-xl sm:text-2xl mb-1" aria-hidden="true">🍳</p>
+        <p class="text-xs sm:text-sm font-medium text-ink leading-snug">Cozinha completa</p>
+        <p class="text-[11px] sm:text-xs text-charcoal/50 mt-1 leading-snug">Café da manhã a dois</p>
       </div>
-      <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
-        <p class="text-2xl mb-1">🛏️</p>
-        <p class="text-sm font-medium text-ink">Suíte (quase)</p>
-        <p class="text-xs text-charcoal/50 mt-1">Cama grande, coração maior</p>
+      <div class="bg-white border border-ink/5 rounded-sm p-4 sm:p-5 text-center active:border-gold/40 transition-colors">
+        <p class="text-xl sm:text-2xl mb-1" aria-hidden="true">🛏️</p>
+        <p class="text-xs sm:text-sm font-medium text-ink leading-snug">Suíte (quase)</p>
+        <p class="text-[11px] sm:text-xs text-charcoal/50 mt-1 leading-snug">Cama grande, coração maior</p>
       </div>
-      <div class="bg-white border border-ink/5 rounded-sm p-5 text-center hover:border-gold/30 transition-colors">
-        <p class="text-2xl mb-1">🎮</p>
-        <p class="text-sm font-medium text-ink">Cantinho gamer</p>
-        <p class="text-xs text-charcoal/50 mt-1">Player 2 bem-vinda</p>
+      <div class="bg-white border border-ink/5 rounded-sm p-4 sm:p-5 text-center active:border-gold/40 transition-colors">
+        <p class="text-xl sm:text-2xl mb-1" aria-hidden="true">🎮</p>
+        <p class="text-xs sm:text-sm font-medium text-ink leading-snug">Cantinho gamer</p>
+        <p class="text-[11px] sm:text-xs text-charcoal/50 mt-1 leading-snug">Player 2 bem-vinda</p>
       </div>
     </div>
   </section>
 
   <!-- Galeria apto -->
-  <section id="galeria" class="max-w-6xl mx-auto px-5 sm:px-6 py-20 md:py-28">
-    <div class="text-center mb-12">
-      <p class="text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium mb-3">Fotos reais do imóvel</p>
-      <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink">Tour pelo apartamento</h2>
-      <p class="text-charcoal/55 mt-3 font-light max-w-md mx-auto text-sm leading-relaxed">
-        Clique nas fotos para ampliar. (Sim, é exatamente assim — sem filtro de imobiliária.)
+  <section id="galeria" class="max-w-6xl mx-auto safe-x py-16 sm:py-20 md:py-28">
+    <div class="text-center mb-8 sm:mb-12">
+      <p class="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-gold-dark font-medium mb-2 sm:mb-3">Fotos reais do imóvel</p>
+      <h2 class="font-display text-[1.75rem] sm:text-3xl md:text-4xl font-semibold text-ink">Tour pelo apartamento</h2>
+      <p class="text-charcoal/55 mt-2.5 sm:mt-3 font-light max-w-md mx-auto text-sm leading-relaxed px-1">
+        Toque nas fotos para ampliar. (Sem filtro de imobiliária.)
       </p>
-      <div class="flex justify-center mt-5"><div class="gold-line"></div></div>
+      <div class="flex justify-center mt-4 sm:mt-5"><div class="gold-line"></div></div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-      <figure class="gallery-card sm:col-span-2 lg:col-span-2 lg:row-span-2 relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto4.jpeg" data-caption="Sala de estar — maratonas, cobertor e alguém especial no sofá">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
+      <figure class="gallery-card sm:col-span-2 lg:col-span-2 lg:row-span-2 relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto4.jpeg" data-caption="Sala de estar: maratonas, cobertor e alguém especial no sofá">
         <div class="aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[440px]">
-          <img src="img/foto4.jpeg" alt="Sala de estar" class="w-full h-full object-cover" />
+          <img src="img/foto4.jpeg" alt="Sala de estar" class="w-full h-full object-cover" loading="lazy" decoding="async" />
         </div>
-        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-5 pt-16">
-          <span class="text-white font-display text-xl">Sala de estar</span>
-          <span class="block text-white/70 text-xs mt-1">Maratonas, cobertor e companhia boa</span>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent p-4 sm:p-5 pt-14">
+          <span class="text-white font-display text-lg sm:text-xl">Sala de estar</span>
+          <span class="block text-white/70 text-xs mt-0.5">Maratonas, cobertor e companhia boa</span>
         </figcaption>
       </figure>
-      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto2.jpeg" data-caption="Quarto — ventilador incluso, carinho também">
-        <div class="aspect-[4/3]"><img src="img/foto2.jpeg" alt="Quarto" class="w-full h-full object-cover" /></div>
-        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
-          <span class="text-white font-display text-lg">Quarto</span>
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto2.jpeg" data-caption="Quarto: ventilador incluso, carinho também">
+        <div class="aspect-[4/3]"><img src="img/foto2.jpeg" alt="Quarto" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-3.5 sm:p-4 pt-12">
+          <span class="text-white font-display text-base sm:text-lg">Quarto</span>
           <span class="block text-white/65 text-xs mt-0.5">Ventilador incluso · carinho à parte</span>
         </figcaption>
       </figure>
-      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto3.jpeg" data-caption="Cozinha — café da manhã com conversa de sobra">
-        <div class="aspect-[4/3]"><img src="img/foto3.jpeg" alt="Cozinha" class="w-full h-full object-cover" /></div>
-        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
-          <span class="text-white font-display text-lg">Cozinha</span>
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto3.jpeg" data-caption="Cozinha: café da manhã com conversa de sobra">
+        <div class="aspect-[4/3]"><img src="img/foto3.jpeg" alt="Cozinha" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-3.5 sm:p-4 pt-12">
+          <span class="text-white font-display text-base sm:text-lg">Cozinha</span>
           <span class="block text-white/65 text-xs mt-0.5">Café da manhã com conversa de sobra</span>
         </figcaption>
       </figure>
-      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto1.jpeg" data-caption="Home office — Player 2 tem cadeira reservada">
-        <div class="aspect-[4/3]"><img src="img/foto1.jpeg" alt="Home office" class="w-full h-full object-cover" /></div>
-        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
-          <span class="text-white font-display text-lg">Home office</span>
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto1.jpeg" data-caption="Home office: Player 2 tem cadeira reservada">
+        <div class="aspect-[4/3]"><img src="img/foto1.jpeg" alt="Home office" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-3.5 sm:p-4 pt-12">
+          <span class="text-white font-display text-base sm:text-lg">Home office</span>
           <span class="block text-white/65 text-xs mt-0.5">Player 2 tem cadeira reservada</span>
         </figcaption>
       </figure>
-      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto5.jpeg" data-caption="Banheiro — chuveiro quente e espelho honesto">
-        <div class="aspect-[4/3]"><img src="img/foto5.jpeg" alt="Banheiro" class="w-full h-full object-cover" /></div>
-        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
-          <span class="text-white font-display text-lg">Banheiro</span>
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto5.jpeg" data-caption="Banheiro: chuveiro quente e espelho honesto">
+        <div class="aspect-[4/3]"><img src="img/foto5.jpeg" alt="Banheiro" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-3.5 sm:p-4 pt-12">
+          <span class="text-white font-display text-base sm:text-lg">Banheiro</span>
           <span class="block text-white/65 text-xs mt-0.5">Chuveiro quente e espelho honesto</span>
         </figcaption>
       </figure>
-      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto7.jpeg" data-caption="Área de serviço — máquina pronta pro combo ‘eu lavo, você dobra’">
-        <div class="aspect-[4/3]"><img src="img/foto7.jpeg" alt="Área de serviço" class="w-full h-full object-cover" /></div>
-        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
-          <span class="text-white font-display text-lg">Área de serviço</span>
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer" data-lightbox="img/foto7.jpeg" data-caption="Área de serviço: máquina pronta pro combo ‘eu lavo, você dobra’">
+        <div class="aspect-[4/3]"><img src="img/foto7.jpeg" alt="Área de serviço" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-3.5 sm:p-4 pt-12">
+          <span class="text-white font-display text-base sm:text-lg">Área de serviço</span>
           <span class="block text-white/65 text-xs mt-0.5">Combo “eu lavo, você dobra”</span>
         </figcaption>
       </figure>
-      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer sm:col-span-2 lg:col-span-1" data-lightbox="img/foto6.jpeg" data-caption="Canto da geladeira — fotos na porta, histórias no freezer">
-        <div class="aspect-[4/3]"><img src="img/foto6.jpeg" alt="Geladeira" class="w-full h-full object-cover" /></div>
-        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/75 to-transparent p-4 pt-12">
-          <span class="text-white font-display text-lg">Cantinho da geladeira</span>
+      <figure class="gallery-card relative overflow-hidden rounded-sm bg-ink/5 cursor-pointer sm:col-span-2 lg:col-span-1" data-lightbox="img/foto6.jpeg" data-caption="Canto da geladeira: fotos na porta, histórias no freezer">
+        <div class="aspect-[4/3]"><img src="img/foto6.jpeg" alt="Geladeira" class="w-full h-full object-cover" loading="lazy" decoding="async" /></div>
+        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-3.5 sm:p-4 pt-12">
+          <span class="text-white font-display text-base sm:text-lg">Cantinho da geladeira</span>
           <span class="block text-white/65 text-xs mt-0.5">Fotos na porta · histórias no freezer</span>
         </figcaption>
       </figure>
@@ -348,14 +474,14 @@
 
   <!-- Descrição -->
   <section id="descricao" class="bg-white border-y border-ink/5">
-    <div class="max-w-3xl mx-auto px-5 sm:px-6 py-20 md:py-28">
-      <div class="text-center mb-12">
-        <p class="text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium mb-3">A proposta</p>
-        <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink">Sobre o apartamento</h2>
-        <div class="flex justify-center mt-5"><div class="gold-line"></div></div>
+    <div class="max-w-3xl mx-auto safe-x py-16 sm:py-20 md:py-28">
+      <div class="text-center mb-8 sm:mb-12">
+        <p class="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-gold-dark font-medium mb-2 sm:mb-3">A proposta</p>
+        <h2 class="font-display text-[1.75rem] sm:text-3xl md:text-4xl font-semibold text-ink">Sobre o apartamento</h2>
+        <div class="flex justify-center mt-4 sm:mt-5"><div class="gold-line"></div></div>
       </div>
 
-      <div class="space-y-5 text-charcoal/80 font-light leading-relaxed text-base md:text-lg">
+      <div class="space-y-4 sm:space-y-5 text-charcoal/80 font-light leading-relaxed text-[0.95rem] sm:text-lg">
         <p>
           Situado em localização privilegiada (perto de quem importa), este apartamento exclusivo reúne
           sofisticação do dia a dia, conforto de verdade e um acabamento…
@@ -366,87 +492,87 @@
           quanto o filme da meia-noite, e uma atmosfera que só melhora quando tem alguém especial por perto.
         </p>
         <p>
-          Ideal para quem buscava um aluguel de R$&nbsp;5 — e, sem querer, encontrou bem mais do que um imóvel:
+          Ideal para quem buscava um aluguel de R$&nbsp;5 e, sem querer, encontrou bem mais do que um imóvel:
           <strong class="font-medium text-ink">um convite para ficar</strong>.
         </p>
       </div>
 
-      <div class="mt-12 relative">
+      <div class="mt-10 sm:mt-12 relative">
         <div class="absolute -inset-1 bg-gradient-to-br from-gold/20 via-blush/30 to-gold/10 rounded-sm blur-sm"></div>
-        <div class="relative bg-cream border border-gold/25 rounded-sm p-7 md:p-10">
-          <p class="text-[11px] uppercase tracking-[0.3em] text-gold-dark font-medium mb-4">Nota do corretor (confidencial)</p>
-          <p class="font-display text-xl md:text-2xl text-ink leading-relaxed italic">
+        <div class="relative bg-cream border border-gold/25 rounded-sm p-5 sm:p-7 md:p-10">
+          <p class="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-gold-dark font-medium mb-3 sm:mb-4">Nota do corretor (confidencial)</p>
+          <p class="font-display text-lg sm:text-xl md:text-2xl text-ink leading-relaxed italic">
             “Ela falou que alugaria se achasse um por cinco reais.
             Então eu tirei foto de casa, montei o anúncio e vim te entregar a chave.
             O aluguel é simbólico. O que eu quero de verdade é você aqui comigo.”
           </p>
-          <p class="mt-5 text-right font-display text-lg text-gold-dark">— Alano 💛</p>
+          <p class="mt-4 sm:mt-5 text-right font-display text-base sm:text-lg text-gold-dark">Alano 💛</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Regras -->
-  <section id="regras" class="max-w-3xl mx-auto px-5 sm:px-6 py-20 md:py-28">
-    <div class="text-center mb-12">
-      <p class="text-[11px] uppercase tracking-[0.35em] text-gold-dark font-medium mb-3">Contrato (versão carinho)</p>
-      <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink">Regras da Locação</h2>
-      <p class="text-charcoal/50 mt-3 text-sm font-light">Leia com atenção. Não aceitamos “eu não sabia”.</p>
-      <div class="flex justify-center mt-5"><div class="gold-line"></div></div>
+  <section id="regras" class="max-w-3xl mx-auto safe-x py-16 sm:py-20 md:py-28">
+    <div class="text-center mb-8 sm:mb-12">
+      <p class="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-gold-dark font-medium mb-2 sm:mb-3">Contrato (versão carinho)</p>
+      <h2 class="font-display text-[1.75rem] sm:text-3xl md:text-4xl font-semibold text-ink">Regras da Locação</h2>
+      <p class="text-charcoal/50 mt-2.5 sm:mt-3 text-sm font-light">Leia com atenção. Não aceitamos “eu não sabia”.</p>
+      <div class="flex justify-center mt-4 sm:mt-5"><div class="gold-line"></div></div>
     </div>
 
-    <ul class="space-y-3.5">
-      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
-        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">01</span>
-        <span class="text-charcoal/85 leading-relaxed">
+    <ul class="space-y-3">
+      <li class="flex gap-3 sm:gap-4 items-start bg-white border border-ink/5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-sm">
+        <span class="text-gold font-display text-lg sm:text-xl leading-none mt-0.5 shrink-0 w-6 sm:w-7">01</span>
+        <span class="text-charcoal/85 leading-relaxed text-sm sm:text-base">
           Aprovação <strong class="font-medium text-ink">automática</strong> para inquilinas com o nome
           <strong class="font-medium text-ink">Alexandra</strong>
           (e para qualquer variação que faça o coração do proprietário bater mais forte).
         </span>
       </li>
-      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
-        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">02</span>
-        <span class="text-charcoal/85 leading-relaxed">
+      <li class="flex gap-3 sm:gap-4 items-start bg-white border border-ink/5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-sm">
+        <span class="text-gold font-display text-lg sm:text-xl leading-none mt-0.5 shrink-0 w-6 sm:w-7">02</span>
+        <span class="text-charcoal/85 leading-relaxed text-sm sm:text-base">
           Multa rescisória: <strong class="font-medium text-ink">lavar a louça do jantar</strong>
-          (a panela “de molho” também conta — negociação possível com beijo).
+          (a panela “de molho” também conta; negociação possível com beijo).
         </span>
       </li>
-      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
-        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">03</span>
-        <span class="text-charcoal/85 leading-relaxed">
+      <li class="flex gap-3 sm:gap-4 items-start bg-white border border-ink/5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-sm">
+        <span class="text-gold font-display text-lg sm:text-xl leading-none mt-0.5 shrink-0 w-6 sm:w-7">03</span>
+        <span class="text-charcoal/85 leading-relaxed text-sm sm:text-base">
           O proprietário mora no local, mas <strong class="font-medium text-ink">jura que é gente boa</strong>.
           Aceita filmes ruins, conversas longas e silêncios confortáveis.
         </span>
       </li>
-      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
-        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">04</span>
-        <span class="text-charcoal/85 leading-relaxed">
+      <li class="flex gap-3 sm:gap-4 items-start bg-white border border-ink/5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-sm">
+        <span class="text-gold font-display text-lg sm:text-xl leading-none mt-0.5 shrink-0 w-6 sm:w-7">04</span>
+        <span class="text-charcoal/85 leading-relaxed text-sm sm:text-base">
           Uso do sofá: liberado 24h. Cobertor incluso. Obrigatório dividir o controle remoto
           (e às vezes a opinião sobre a série).
         </span>
       </li>
-      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
-        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">05</span>
-        <span class="text-charcoal/85 leading-relaxed">
+      <li class="flex gap-3 sm:gap-4 items-start bg-white border border-ink/5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-sm">
+        <span class="text-gold font-display text-lg sm:text-xl leading-none mt-0.5 shrink-0 w-6 sm:w-7">05</span>
+        <span class="text-charcoal/85 leading-relaxed text-sm sm:text-base">
           Setup gamer: Player 2 tem vaga garantida. Vitórias se comemoram juntos; derrotas também (com lanche).
         </span>
       </li>
-      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
-        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">06</span>
-        <span class="text-charcoal/85 leading-relaxed">
+      <li class="flex gap-3 sm:gap-4 items-start bg-white border border-ink/5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-sm">
+        <span class="text-gold font-display text-lg sm:text-xl leading-none mt-0.5 shrink-0 w-6 sm:w-7">06</span>
+        <span class="text-charcoal/85 leading-relaxed text-sm sm:text-base">
           IPTU: quitado em cafunés. Contestação sujeita a <strong class="font-medium text-ink">mais cafunés</strong>.
         </span>
       </li>
-      <li class="flex gap-4 items-start bg-white border border-ink/5 px-5 py-4 rounded-sm hover:border-gold/30 transition-colors">
-        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">07</span>
-        <span class="text-charcoal/85 leading-relaxed">
+      <li class="flex gap-3 sm:gap-4 items-start bg-white border border-ink/5 px-4 sm:px-5 py-3.5 sm:py-4 rounded-sm">
+        <span class="text-gold font-display text-lg sm:text-xl leading-none mt-0.5 shrink-0 w-6 sm:w-7">07</span>
+        <span class="text-charcoal/85 leading-relaxed text-sm sm:text-base">
           Horário de chegada: qualquer um. Horário de ir embora:
           <strong class="font-medium text-ink">preferencialmente nunca</strong>.
         </span>
       </li>
-      <li class="flex gap-4 items-start bg-gradient-to-r from-gold/10 to-blush/30 border border-gold/25 px-5 py-4 rounded-sm">
-        <span class="text-gold font-display text-xl leading-none mt-0.5 shrink-0 w-7">08</span>
-        <span class="text-charcoal/90 leading-relaxed">
+      <li class="flex gap-3 sm:gap-4 items-start bg-gradient-to-r from-gold/10 to-blush/30 border border-gold/25 px-4 sm:px-5 py-3.5 sm:py-4 rounded-sm">
+        <span class="text-gold font-display text-lg sm:text-xl leading-none mt-0.5 shrink-0 w-6 sm:w-7">08</span>
+        <span class="text-charcoal/90 leading-relaxed text-sm sm:text-base">
           Cláusula principal: o aluguel de R$&nbsp;5 é só a desculpa.
           O real objetivo é <strong class="font-medium text-ink">você ficar aqui comigo</strong>.
         </span>
@@ -457,54 +583,53 @@
   <!-- CTA aluguel -->
   <section id="cta" class="relative overflow-hidden">
     <div class="absolute inset-0">
-      <img src="img/foto2.jpeg" alt="" class="w-full h-full object-cover scale-105" aria-hidden="true" />
+      <img src="img/foto2.jpeg" alt="" class="w-full h-full object-cover scale-105" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="absolute inset-0 bg-charcoal/88"></div>
       <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(ellipse at 50% 20%, #C4A35A 0%, transparent 55%);"></div>
     </div>
-    <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-6 py-24 md:py-32 text-center">
-      <div class="inline-flex items-center justify-center w-14 h-14 rounded-full border border-gold/40 bg-gold/10 mb-6">
-        <span class="text-2xl heart-pulse" aria-hidden="true">💛</span>
+    <div class="relative z-10 max-w-3xl mx-auto safe-x py-20 sm:py-24 md:py-32 text-center safe-bottom">
+      <div class="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-gold/40 bg-gold/10 mb-5 sm:mb-6">
+        <span class="text-xl sm:text-2xl heart-pulse" aria-hidden="true">💛</span>
       </div>
-      <p class="text-gold-light text-[11px] uppercase tracking-[0.4em] font-medium mb-5">
+      <p class="text-gold-light text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-medium mb-4 sm:mb-5">
         Última vaga · reservada no seu nome
       </p>
-      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-white mb-4 leading-tight">
+      <h2 class="font-display text-[1.85rem] sm:text-4xl md:text-5xl font-semibold text-white mb-3 sm:mb-4 leading-tight px-1">
         Aceita o contrato?
       </h2>
-      <p class="text-white/65 font-light max-w-md mx-auto mb-10 leading-relaxed">
+      <p class="text-white/65 font-light max-w-md mx-auto mb-8 sm:mb-10 leading-relaxed text-sm sm:text-base px-1">
         R$&nbsp;5,00 por mês. Condomínio zero. IPTU em carinho.
-        <br />E um dono de apartamento que só quer você por perto.
+        <br class="hidden xs:block" />Um dono de apartamento que só quer você por perto.
       </p>
-      <button type="button" id="btn-alugar" class="cta-glow inline-flex items-center justify-center gap-3 bg-gold hover:bg-gold-light text-ink font-semibold text-base md:text-lg tracking-wide px-10 md:px-14 py-5 rounded-sm transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-gold-light focus:ring-offset-2 focus:ring-offset-charcoal">
+      <button type="button" id="btn-alugar" class="cta-btn cta-glow inline-flex items-center justify-center gap-2 sm:gap-3 bg-gold active:bg-gold-light text-ink font-semibold text-sm sm:text-lg tracking-wide px-6 sm:px-14 py-4 sm:py-5 rounded-sm w-full max-w-sm sm:max-w-none sm:w-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-light">
         <span>Quero Alugar por R$ 5!</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
         </svg>
       </button>
-      <p class="mt-8 text-white/35 text-xs tracking-wide max-w-xs mx-auto leading-relaxed">
+      <p class="mt-6 sm:mt-8 text-white/35 text-[11px] sm:text-xs tracking-wide max-w-xs mx-auto leading-relaxed">
         Ao clicar, você declara que leu as regras, aceita cafunés como moeda e sabe que não tem direito a arrependimento.
       </p>
-      <a href="#nosso" class="inline-flex items-center gap-2 mt-14 text-white/50 hover:text-rose-mid text-xs uppercase tracking-[0.3em] transition-colors">
+      <a href="#nosso" class="inline-flex items-center justify-center gap-2 mt-10 sm:mt-14 min-h-[44px] text-white/50 active:text-rose-mid text-[10px] sm:text-xs uppercase tracking-[0.22em] transition-colors">
         Mas espera… tem mais uma cláusula
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
       </a>
     </div>
   </section>
 
-  <!-- ========== PARTE 2: A VERDADEIRA PROPOSTA ========== -->
+  <!-- ========== PARTE 2: NÓS ========== -->
 
-  <!-- Transição -->
   <section class="relative bg-night text-white overflow-hidden">
     <div class="absolute inset-0 opacity-40" style="background-image: radial-gradient(ellipse at 50% 0%, #8B4A52 0%, transparent 55%);"></div>
-    <div class="relative max-w-3xl mx-auto px-5 sm:px-6 py-20 md:py-28 text-center">
-      <p class="text-rose-mid text-[11px] uppercase tracking-[0.4em] font-medium mb-6 reveal">Cláusula secreta · não estava no anúncio</p>
-      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight reveal">
+    <div class="relative max-w-3xl mx-auto safe-x py-16 sm:py-20 md:py-28 text-center">
+      <p class="text-rose-mid text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-medium mb-5 sm:mb-6 reveal">Cláusula secreta · não estava no anúncio</p>
+      <h2 class="font-display text-[1.85rem] sm:text-4xl md:text-5xl font-semibold leading-tight reveal px-1">
         O apartamento era só a desculpa.
       </h2>
-      <div class="flex justify-center my-8 reveal"><div class="rose-line"></div></div>
-      <p class="text-white/60 font-light text-lg md:text-xl leading-relaxed max-w-xl mx-auto reveal">
+      <div class="flex justify-center my-6 sm:my-8 reveal"><div class="rose-line"></div></div>
+      <p class="text-white/60 font-light text-base sm:text-xl leading-relaxed max-w-xl mx-auto reveal px-1">
         Porque o que eu realmente quero te oferecer
         <span class="text-white font-normal">não cabe em um aluguel</span>.
         Cabe numa vida inteira.
@@ -512,50 +637,50 @@
     </div>
   </section>
 
-  <!-- Nós / Começo -->
-  <section id="nosso" class="hearts-bg border-t border-ink/5">
-    <div class="max-w-6xl mx-auto px-5 sm:px-6 py-20 md:py-28">
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+  <!-- Começo / Loft -->
+  <section id="nosso" class="hearts-bg border-t border-ink/5 scroll-mt-28 sm:scroll-mt-24">
+    <div class="max-w-6xl mx-auto safe-x py-16 sm:py-20 md:py-28">
+      <div class="grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
         <div class="reveal order-2 lg:order-1">
-          <p class="text-[11px] uppercase tracking-[0.35em] text-rose-deep font-medium mb-4">19 de junho de 2021 · O loft</p>
-          <h2 class="font-display text-4xl md:text-5xl font-semibold text-ink leading-tight mb-6">
+          <p class="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-rose-deep font-medium mb-3 sm:mb-4">19 de junho de 2021 · O loft</p>
+          <h2 class="font-display text-[1.85rem] sm:text-4xl md:text-5xl font-semibold text-ink leading-tight mb-5 sm:mb-6">
             Nossa primeira foto.
-            <span class="block italic font-normal text-rose-deep mt-2">O começo de tudo.</span>
+            <span class="block italic font-normal text-rose-deep mt-1.5 sm:mt-2">O começo de tudo.</span>
           </h2>
-          <div class="space-y-4 text-charcoal/75 font-light leading-relaxed text-base md:text-lg mb-6">
+          <div class="space-y-3.5 sm:space-y-4 text-charcoal/75 font-light leading-relaxed text-[0.95rem] sm:text-lg mb-5 sm:mb-6">
             <p>
               Aquele loft tem história. O que a gente viveu ali
               <strong class="font-medium text-ink">não conseguimos replicar em nenhum outro lugar</strong>
-              — e você sabe do que eu tô falando. 😏
+              e você sabe do que eu tô falando. 😏
             </p>
             <p>
               Foi o início de tudo: de tudo que criamos até agora e de tudo que ainda vamos criar.
               Nosso primeiro encontro. Nosso primeiro beijo. Nossa primeira troca de carinho.
-              Nossa primeira pizza juntos — e, como sempre,
+              Nossa primeira pizza juntos e, como sempre,
               <strong class="font-medium text-ink">você no vinho e eu na gelada</strong>.
             </p>
           </div>
-          <div class="flex flex-wrap gap-2 mb-8">
-            <span class="text-xs tracking-wide px-3 py-1.5 rounded-full bg-white border border-ink/10 text-charcoal/70">1º encontro</span>
-            <span class="text-xs tracking-wide px-3 py-1.5 rounded-full bg-white border border-ink/10 text-charcoal/70">1º beijo</span>
-            <span class="text-xs tracking-wide px-3 py-1.5 rounded-full bg-white border border-ink/10 text-charcoal/70">1ª pizza</span>
-            <span class="text-xs tracking-wide px-3 py-1.5 rounded-full bg-white border border-ink/10 text-charcoal/70">vinho + gelada</span>
+          <div class="flex flex-wrap gap-2 mb-7 sm:mb-8">
+            <span class="text-[11px] sm:text-xs tracking-wide px-2.5 sm:px-3 py-1.5 rounded-full bg-white border border-ink/10 text-charcoal/70">1º encontro</span>
+            <span class="text-[11px] sm:text-xs tracking-wide px-2.5 sm:px-3 py-1.5 rounded-full bg-white border border-ink/10 text-charcoal/70">1º beijo</span>
+            <span class="text-[11px] sm:text-xs tracking-wide px-2.5 sm:px-3 py-1.5 rounded-full bg-white border border-ink/10 text-charcoal/70">1ª pizza</span>
+            <span class="text-[11px] sm:text-xs tracking-wide px-2.5 sm:px-3 py-1.5 rounded-full bg-white border border-ink/10 text-charcoal/70">vinho + gelada</span>
           </div>
-          <div class="inline-flex items-center gap-3 years-badge text-white px-5 py-3 rounded-full shadow-lg shadow-rose-deep/20">
-            <span class="text-2xl heart-pulse" aria-hidden="true">💕</span>
+          <div class="inline-flex items-center gap-3 years-badge text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-full shadow-lg shadow-rose-deep/20">
+            <span class="text-xl sm:text-2xl heart-pulse" aria-hidden="true">💕</span>
             <div class="text-left">
-              <p class="text-[10px] uppercase tracking-widest opacity-80">Desde então</p>
-              <p class="font-display text-xl leading-none" id="years-label">anos de nós</p>
+              <p class="text-[9px] sm:text-[10px] uppercase tracking-widest opacity-80">Desde então</p>
+              <p class="font-display text-lg sm:text-xl leading-none" id="years-label">anos de nós</p>
             </div>
           </div>
         </div>
-        <div class="reveal order-1 lg:order-2 flex justify-center">
+        <div class="reveal order-1 lg:order-2 flex justify-center px-4 sm:px-0">
           <figure
-            class="polaroid w-full max-w-sm -rotate-2 cursor-pointer"
+            class="polaroid w-full max-w-[280px] sm:max-w-sm -rotate-1 sm:-rotate-2 cursor-pointer"
             data-lightbox="img/Nossas/nos01.jpeg"
-            data-caption="O loft · 19.06.2021 — primeiro encontro, primeiro beijo, primeira pizza. Você no vinho, eu na gelada."
+            data-caption="O loft · 19.06.2021: primeiro encontro, primeiro beijo, primeira pizza. Você no vinho, eu na gelada."
           >
-            <img src="img/Nossas/nos01.jpeg" alt="Nossa primeira foto juntos no loft" />
+            <img src="img/Nossas/nos01.jpeg" alt="Nossa primeira foto juntos no loft" decoding="async" />
             <figcaption>O loft · 19.06.2021</figcaption>
           </figure>
         </div>
@@ -563,103 +688,102 @@
     </div>
   </section>
 
-  <!-- Film strip / memórias -->
-  <section class="bg-white border-y border-ink/5 py-16 md:py-24 overflow-hidden">
-    <div class="max-w-6xl mx-auto px-5 sm:px-6 mb-8 text-center">
-      <p class="text-[11px] uppercase tracking-[0.35em] text-rose-deep font-medium mb-3 reveal">Álbum de nós</p>
-      <h2 class="font-display text-3xl md:text-4xl font-semibold text-ink reveal">Momentos que eu guardo no peito</h2>
-      <p class="text-charcoal/55 mt-3 font-light text-sm reveal">Deslize para o lado · cada foto é um pedacinho da nossa história</p>
-      <div class="flex justify-center mt-5 reveal"><div class="rose-line"></div></div>
+  <!-- Film strip -->
+  <section class="bg-white border-y border-ink/5 py-12 sm:py-16 md:py-24 overflow-hidden">
+    <div class="max-w-6xl mx-auto safe-x mb-6 sm:mb-8 text-center">
+      <p class="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-rose-deep font-medium mb-2 sm:mb-3 reveal">Álbum de nós</p>
+      <h2 class="font-display text-[1.75rem] sm:text-3xl md:text-4xl font-semibold text-ink reveal">Momentos que eu guardo no peito</h2>
+      <p class="text-charcoal/55 mt-2.5 sm:mt-3 font-light text-sm reveal">Deslize pro lado · cada foto é um pedacinho da nossa história</p>
+      <div class="flex justify-center mt-4 sm:mt-5 reveal"><div class="rose-line"></div></div>
     </div>
 
-    <div class="film-track" id="film-track">
-      <!-- polaroids with slight rotations -->
+    <div class="film-track" id="film-track" aria-label="Álbum de fotos">
       <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos02.jpeg" data-caption="Esse sorriso que eu amo demais">
-        <img src="img/Nossas/nos02.jpeg" alt="Esse sorriso que amo demais" loading="lazy" />
+        <img src="img/Nossas/nos02.jpeg" alt="Esse sorriso que amo demais" loading="lazy" decoding="async" />
         <figcaption>Esse sorriso que amo demais</figcaption>
       </figure>
-      <figure class="film-item polaroid -rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos03.jpeg" data-caption="Sempre com muito amor">
-        <img src="img/Nossas/nos03.jpeg" alt="Sempre com muito amor" loading="lazy" />
+      <figure class="film-item polaroid -rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos03.jpeg" data-caption="Sempre com muito amor">
+        <img src="img/Nossas/nos03.jpeg" alt="Sempre com muito amor" loading="lazy" decoding="async" />
         <figcaption>Sempre com muito amor</figcaption>
       </figure>
-      <figure class="film-item polaroid rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos04.jpeg" data-caption="Experiências e convivências, lado a lado">
-        <img src="img/Nossas/nos04.jpeg" alt="Lado a lado" loading="lazy" />
+      <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos04.jpeg" data-caption="Experiências e convivências, lado a lado">
+        <img src="img/Nossas/nos04.jpeg" alt="Lado a lado" loading="lazy" decoding="async" />
         <figcaption>Lado a lado</figcaption>
       </figure>
-      <figure class="film-item polaroid -rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos05.jpeg" data-caption="Vários rolês — 30 de dezembro de 2022">
-        <img src="img/Nossas/nos05.jpeg" alt="Vários rolês" loading="lazy" />
+      <figure class="film-item polaroid -rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos05.jpeg" data-caption="Vários rolês · 30 de dezembro de 2022">
+        <img src="img/Nossas/nos05.jpeg" alt="Vários rolês" loading="lazy" decoding="async" />
         <figcaption>Vários rolês · 30.12.2022</figcaption>
       </figure>
       <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos06.jpeg" data-caption="Vários sorrisos">
-        <img src="img/Nossas/nos06.jpeg" alt="Vários sorrisos" loading="lazy" />
+        <img src="img/Nossas/nos06.jpeg" alt="Vários sorrisos" loading="lazy" decoding="async" />
         <figcaption>Vários sorrisos</figcaption>
       </figure>
-      <figure class="film-item polaroid -rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos07.jpeg" data-caption="Brincadeiras">
-        <img src="img/Nossas/nos07.jpeg" alt="Brincadeiras" loading="lazy" />
+      <figure class="film-item polaroid -rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos07.jpeg" data-caption="Brincadeiras">
+        <img src="img/Nossas/nos07.jpeg" alt="Brincadeiras" loading="lazy" decoding="async" />
         <figcaption>Brincadeiras</figcaption>
       </figure>
-      <figure class="film-item polaroid rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos08.jpeg" data-caption="Focados">
-        <img src="img/Nossas/nos08.jpeg" alt="Focados" loading="lazy" />
+      <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos08.jpeg" data-caption="Focados">
+        <img src="img/Nossas/nos08.jpeg" alt="Focados" loading="lazy" decoding="async" />
         <figcaption>Focados</figcaption>
       </figure>
       <figure class="film-item polaroid -rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos09.jpeg" data-caption="Gordinhos">
-        <img src="img/Nossas/nos09.jpeg" alt="Gordinhos" loading="lazy" />
+        <img src="img/Nossas/nos09.jpeg" alt="Gordinhos" loading="lazy" decoding="async" />
         <figcaption>Gordinhos</figcaption>
       </figure>
       <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos10.jpeg" data-caption="Comidas">
-        <img src="img/Nossas/nos10.jpeg" alt="Comidas" loading="lazy" />
+        <img src="img/Nossas/nos10.jpeg" alt="Comidas" loading="lazy" decoding="async" />
         <figcaption>Comidas</figcaption>
       </figure>
-      <figure class="film-item polaroid -rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos11.jpeg" data-caption="Mais comidas">
-        <img src="img/Nossas/nos11.jpeg" alt="Mais comidas" loading="lazy" />
+      <figure class="film-item polaroid -rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos11.jpeg" data-caption="Mais comidas">
+        <img src="img/Nossas/nos11.jpeg" alt="Mais comidas" loading="lazy" decoding="async" />
         <figcaption>Mais comidas</figcaption>
       </figure>
-      <figure class="film-item polaroid rotate-2 cursor-pointer" data-lightbox="img/Nossas/nos12.jpeg" data-caption="Ainda mais comidas">
-        <img src="img/Nossas/nos12.jpeg" alt="Ainda mais comidas" loading="lazy" />
+      <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos12.jpeg" data-caption="Ainda mais comidas">
+        <img src="img/Nossas/nos12.jpeg" alt="Ainda mais comidas" loading="lazy" decoding="async" />
         <figcaption>Ainda mais comidas</figcaption>
       </figure>
       <figure class="film-item polaroid -rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos13.jpeg" data-caption="Muitas comidas">
-        <img src="img/Nossas/nos13.jpeg" alt="Muitas comidas" loading="lazy" />
+        <img src="img/Nossas/nos13.jpeg" alt="Muitas comidas" loading="lazy" decoding="async" />
         <figcaption>Muitas comidas</figcaption>
       </figure>
-      <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos14.jpeg" data-caption="Salvador ⇄ Laguna: você vinha no fim de semana e voltava. Namoro à distância — nunca término.">
-        <img src="img/Nossas/nos14.jpeg" alt="Aeroporto e reencontros do namoro à distância" loading="lazy" />
+      <figure class="film-item polaroid rotate-1 cursor-pointer" data-lightbox="img/Nossas/nos14.jpeg" data-caption="Salvador ⇄ Laguna: você vinha no fim de semana e voltava. Namoro à distância, nunca término.">
+        <img src="img/Nossas/nos14.jpeg" alt="Aeroporto e reencontros do namoro à distância" loading="lazy" decoding="async" />
         <figcaption>Salvador ⇄ Laguna</figcaption>
       </figure>
     </div>
   </section>
 
-  <!-- Mosaic highlight -->
-  <section class="max-w-6xl mx-auto px-5 sm:px-6 py-16 md:py-24">
-    <div class="grid md:grid-cols-12 gap-4 md:gap-5">
+  <!-- Mosaic -->
+  <section class="max-w-6xl mx-auto safe-x py-12 sm:py-16 md:py-24">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 md:gap-5">
       <figure class="md:col-span-7 relative overflow-hidden rounded-sm group cursor-pointer reveal" data-lightbox="img/Nossas/nos03.jpeg" data-caption="Sempre com muito amor">
-        <div class="aspect-[16/10] md:aspect-auto md:h-full md:min-h-[380px]">
-          <img src="img/Nossas/nos03.jpeg" alt="Sempre com muito amor" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+        <div class="aspect-[16/11] md:aspect-auto md:h-full md:min-h-[360px]">
+          <img src="img/Nossas/nos03.jpeg" alt="Sempre com muito amor" class="w-full h-full object-cover" loading="lazy" decoding="async" />
         </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-night/70 via-transparent to-transparent"></div>
-        <figcaption class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-          <p class="text-white/70 text-[11px] uppercase tracking-[0.3em] mb-1">Collage da gente</p>
-          <p class="font-display text-2xl md:text-3xl text-white">Sempre com muito amor</p>
+        <div class="absolute inset-0 bg-gradient-to-t from-night/75 via-transparent to-transparent"></div>
+        <figcaption class="absolute bottom-0 left-0 right-0 p-5 sm:p-6 md:p-8">
+          <p class="text-white/70 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] mb-1">Collage da gente</p>
+          <p class="font-display text-xl sm:text-2xl md:text-3xl text-white">Sempre com muito amor</p>
         </figcaption>
       </figure>
-      <div class="md:col-span-5 grid grid-rows-2 gap-4 md:gap-5">
-        <figure class="relative overflow-hidden rounded-sm group cursor-pointer reveal" data-lightbox="img/Nossas/nos02.jpeg" data-caption="Esse sorriso que eu amo demais">
-          <div class="aspect-[16/10] md:aspect-auto md:h-full">
-            <img src="img/Nossas/nos02.jpeg" alt="Sorriso" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+      <div class="md:col-span-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 md:grid-rows-2 gap-3 sm:gap-4 md:gap-5">
+        <figure class="relative overflow-hidden rounded-sm cursor-pointer reveal" data-lightbox="img/Nossas/nos02.jpeg" data-caption="Esse sorriso que eu amo demais">
+          <div class="aspect-[16/11] md:aspect-auto md:h-full">
+            <img src="img/Nossas/nos02.jpeg" alt="Sorriso" class="w-full h-full object-cover" loading="lazy" decoding="async" />
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-night/60 via-transparent to-transparent"></div>
-          <figcaption class="absolute bottom-0 p-5">
-            <p class="font-display text-xl text-white">Esse sorriso</p>
+          <div class="absolute inset-0 bg-gradient-to-t from-night/65 via-transparent to-transparent"></div>
+          <figcaption class="absolute bottom-0 p-4 sm:p-5">
+            <p class="font-display text-lg sm:text-xl text-white">Esse sorriso</p>
             <p class="text-white/60 text-xs">que eu amo demais</p>
           </figcaption>
         </figure>
-        <figure class="relative overflow-hidden rounded-sm group cursor-pointer reveal" data-lightbox="img/Nossas/nos14.jpeg" data-caption="Você em Salvador, eu em Laguna (SC). Fim de semana juntos, depois o aeroporto — e o coração na mesma distância zero.">
-          <div class="aspect-[16/10] md:aspect-auto md:h-full">
-            <img src="img/Nossas/nos14.jpeg" alt="Namoro à distância Salvador e Laguna" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+        <figure class="relative overflow-hidden rounded-sm cursor-pointer reveal" data-lightbox="img/Nossas/nos14.jpeg" data-caption="Você em Salvador, eu em Laguna (SC). Fim de semana juntos, depois o aeroporto, e o coração na mesma distância zero.">
+          <div class="aspect-[16/11] md:aspect-auto md:h-full">
+            <img src="img/Nossas/nos14.jpeg" alt="Namoro à distância Salvador e Laguna" class="w-full h-full object-cover" loading="lazy" decoding="async" />
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-night/60 via-transparent to-transparent"></div>
-          <figcaption class="absolute bottom-0 p-5">
-            <p class="font-display text-xl text-white">Salvador ⇄ Laguna</p>
+          <div class="absolute inset-0 bg-gradient-to-t from-night/65 via-transparent to-transparent"></div>
+          <figcaption class="absolute bottom-0 p-4 sm:p-5">
+            <p class="font-display text-lg sm:text-xl text-white">Salvador ⇄ Laguna</p>
             <p class="text-white/60 text-xs">namoro à distância · nunca término</p>
           </figcaption>
         </figure>
@@ -667,48 +791,48 @@
     </div>
   </section>
 
-  <!-- Distância com carinho -->
+  <!-- Distância -->
   <section class="bg-white border-t border-ink/5">
-    <div class="max-w-3xl mx-auto px-5 sm:px-6 py-16 md:py-20">
-      <div class="reveal bg-cream border border-ink/5 rounded-sm p-7 md:p-10">
-        <p class="text-[11px] uppercase tracking-[0.3em] text-rose-deep font-medium mb-3">Sobre as “despedidas”</p>
-        <h3 class="font-display text-2xl md:text-3xl font-semibold text-ink mb-4 leading-snug">
+    <div class="max-w-3xl mx-auto safe-x py-12 sm:py-16 md:py-20">
+      <div class="reveal bg-cream border border-ink/5 rounded-sm p-5 sm:p-7 md:p-10">
+        <p class="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-rose-deep font-medium mb-2.5 sm:mb-3">Sobre as “despedidas”</p>
+        <h3 class="font-display text-xl sm:text-2xl md:text-3xl font-semibold text-ink mb-3 sm:mb-4 leading-snug">
           Não era término. Era distância.
         </h3>
-        <p class="text-charcoal/75 font-light leading-relaxed text-base md:text-lg">
+        <p class="text-charcoal/75 font-light leading-relaxed text-[0.95rem] sm:text-lg">
           No começo a gente namorava à distância: você em
           <strong class="font-medium text-ink">Salvador</strong>, eu em
           <strong class="font-medium text-ink">Laguna, Santa Catarina</strong>.
           Você vinha passar o fim de semana… e depois voltava.
-          Cada aeroporto doía — mas era só o bilhete de ida e volta do nosso amor,
+          Cada aeroporto doía, mas era só o bilhete de ida e volta do nosso amor,
           nunca um “acabou”. A gente sempre continuava. A gente sempre continua.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Carta curta + CTA final -->
+  <!-- Final -->
   <section id="para-sempre" class="relative overflow-hidden">
     <div class="absolute inset-0">
-      <img src="img/Nossas/nos01.jpeg" alt="" class="w-full h-full object-cover scale-110" aria-hidden="true" />
+      <img src="img/Nossas/nos01.jpeg" alt="" class="w-full h-full object-cover scale-110" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="absolute inset-0 bg-gradient-to-b from-night/88 via-night/92 to-night"></div>
       <div class="absolute inset-0 opacity-35" style="background-image: radial-gradient(ellipse at 50% 20%, #8B4A52 0%, transparent 55%);"></div>
     </div>
 
-    <div class="relative z-10 max-w-2xl mx-auto px-5 sm:px-6 py-24 md:py-32 text-center">
-      <div class="inline-flex items-center justify-center w-14 h-14 rounded-full border border-rose-mid/40 bg-rose-deep/20 mb-7 reveal">
-        <span class="text-2xl heart-pulse" aria-hidden="true">💛</span>
+    <div class="relative z-10 max-w-2xl mx-auto safe-x py-20 sm:py-24 md:py-32 text-center safe-bottom">
+      <div class="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-rose-mid/40 bg-rose-deep/20 mb-6 sm:mb-7 reveal">
+        <span class="text-xl sm:text-2xl heart-pulse" aria-hidden="true">💛</span>
       </div>
-      <p class="text-rose-mid text-[11px] uppercase tracking-[0.4em] font-medium mb-5 reveal">
+      <p class="text-rose-mid text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-medium mb-4 sm:mb-5 reveal">
         O que eu quero te dizer
       </p>
-      <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-white mb-8 leading-tight reveal">
+      <h2 class="font-display text-[1.85rem] sm:text-4xl md:text-5xl font-semibold text-white mb-6 sm:mb-8 leading-tight reveal px-1">
         Isso aqui
         <span class="italic font-normal text-rose-mid">não acaba.</span>
       </h2>
-      <div class="space-y-5 text-white/70 font-light text-base md:text-lg leading-relaxed reveal mb-12">
+      <div class="space-y-4 sm:space-y-5 text-white/70 font-light text-[0.95rem] sm:text-lg leading-relaxed reveal mb-10 sm:mb-12 px-1">
         <p>
-          Tudo o que a gente construiu — do loft até agora — eu não deixo acabar.
+          Tudo o que a gente construiu, do loft até agora, eu não deixo acabar.
           Vou lutar pra gente ficar juntos para sempre.
         </p>
         <p>
@@ -721,59 +845,54 @@
       <button
         type="button"
         id="btn-sempre"
-        class="love-glow inline-flex items-center justify-center gap-3 bg-rose-deep hover:bg-rose-mid text-white font-semibold text-base md:text-lg tracking-wide px-10 md:px-14 py-5 rounded-sm transition-all duration-300 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-rose-mid focus:ring-offset-2 focus:ring-offset-night reveal"
+        class="cta-btn love-glow inline-flex items-center justify-center gap-3 bg-rose-deep active:bg-rose-mid text-white font-semibold text-sm sm:text-lg tracking-wide px-6 sm:px-14 py-4 sm:py-5 rounded-sm w-full max-w-sm sm:max-w-none sm:w-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-mid"
       >
         <span>Eu luto por nós. Para sempre.</span>
       </button>
 
-      <p class="mt-10 text-white/30 text-xs tracking-wide reveal">
+      <p class="mt-8 sm:mt-10 text-white/30 text-[11px] sm:text-xs tracking-wide reveal">
         Alano + Alexandra · desde o loft · 19.06.2021
       </p>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-ink text-white/40 py-12 border-t border-white/5">
-    <div class="max-w-6xl mx-auto px-5 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
+  <footer class="bg-ink text-white/40 py-10 sm:py-12 border-t border-white/5 safe-bottom">
+    <div class="max-w-6xl mx-auto safe-x flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
       <div>
-        <p class="font-display text-2xl text-white/85 tracking-wide">Imobiliária Alano</p>
-        <p class="text-xs mt-1.5 tracking-wider uppercase text-white/35">
+        <p class="font-display text-xl sm:text-2xl text-white/85 tracking-wide">Imobiliária Alano</p>
+        <p class="text-[10px] sm:text-xs mt-1.5 tracking-wider uppercase text-white/35">
           Onde o aluguel é simbólico e o “sim” é pra vida toda
         </p>
       </div>
-      <p class="text-xs leading-relaxed">
-        © 2026 · Feito com amor (e um pouco de ousadia)
-        <br class="sm:hidden" />
-        <span class="hidden sm:inline"> · </span>
-        Todos os cafunés e promessas reservados
+      <p class="text-[11px] sm:text-xs leading-relaxed">
+        © 2026 · Feito com amor
       </p>
     </div>
   </footer>
 
   <!-- Lightbox -->
-  <div id="lightbox" class="fixed inset-0 z-[100] bg-ink/90 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Visualização da foto">
-    <button type="button" id="lightbox-close" class="absolute top-5 right-5 text-white/70 hover:text-white text-3xl leading-none w-10 h-10 flex items-center justify-center" aria-label="Fechar">&times;</button>
-    <div class="max-w-5xl w-full">
-      <img id="lightbox-img" src="" alt="" class="max-h-[80vh] w-full object-contain rounded-sm shadow-2xl mx-auto" />
-      <p id="lightbox-caption" class="text-center text-white/70 text-sm mt-4 font-light font-display text-lg"></p>
+  <div id="lightbox" class="fixed inset-0 z-[100] bg-ink/92 backdrop-blur-md flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-label="Visualização da foto" aria-hidden="true">
+    <button type="button" id="lightbox-close" class="absolute top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] text-white/80 active:text-white text-4xl leading-none w-12 h-12 flex items-center justify-center z-10" aria-label="Fechar">&times;</button>
+    <div class="max-w-5xl w-full flex flex-col items-center">
+      <img id="lightbox-img" src="" alt="" class="max-h-[72dvh] sm:max-h-[80vh] w-auto max-w-full object-contain rounded-sm shadow-2xl" />
+      <p id="lightbox-caption" class="text-center text-white/75 text-sm sm:text-base mt-4 font-light font-display px-2 leading-snug"></p>
     </div>
   </div>
 
   <script>
-    // Contador de anos desde 19/06/2021
+    // Anos desde 19/06/2021
     (function () {
-      var start = new Date(2021, 5, 19); // mês 0-index
+      var start = new Date(2021, 5, 19);
       var now = new Date();
       var years = now.getFullYear() - start.getFullYear();
       var m = now.getMonth() - start.getMonth();
       if (m < 0 || (m === 0 && now.getDate() < start.getDate())) years--;
       var el = document.getElementById('years-label');
-      if (el) {
-        el.textContent = years + (years === 1 ? ' ano de nós' : ' anos de nós');
-      }
+      if (el) el.textContent = years + (years === 1 ? ' ano de nós' : ' anos de nós');
     })();
 
-    // Reveal on scroll
+    // Reveal
     (function () {
       var els = document.querySelectorAll('.reveal');
       if (!('IntersectionObserver' in window)) {
@@ -787,36 +906,43 @@
             io.unobserve(e.target);
           }
         });
-      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
       els.forEach(function (el) { io.observe(el); });
     })();
 
-    // CTA aluguel
+    // CTAs
     document.getElementById('btn-alugar').addEventListener('click', function () {
-      alert('Contrato assinado com sucesso! Sem direito a arrependimento, viu?\n\n(Agora é oficial: as chaves — e o sofá — são seus também. 💛)\n\nMas continua rolando… tem uma cláusula secreta mais embaixo 👀');
+      alert('Contrato assinado com sucesso! Sem direito a arrependimento, viu?\n\n(Agora é oficial: as chaves e o sofá são seus também. 💛)\n\nMas continua rolando… tem uma cláusula secreta mais embaixo 👀');
     });
 
-    // CTA para sempre
     document.getElementById('btn-sempre').addEventListener('click', function () {
-      alert('Promessa registrada. 💛\n\nIsso aqui não acaba.\nEu luto por nós — e vai dar tudo certo.\n\nTe amo. — Alano');
+      alert('Promessa registrada. 💛\n\nIsso aqui não acaba.\nEu luto por nós e vai dar tudo certo.\n\nTe amo.\nAlano');
     });
 
-    // Lightbox
+    // Lightbox (iOS-safe scroll lock)
     var lightbox = document.getElementById('lightbox');
     var lightboxImg = document.getElementById('lightbox-img');
     var lightboxCaption = document.getElementById('lightbox-caption');
+    var scrollY = 0;
 
     function openLightbox(src, caption) {
       lightboxImg.src = src;
       lightboxImg.alt = caption || '';
       lightboxCaption.textContent = caption || '';
+      scrollY = window.scrollY || window.pageYOffset;
+      document.body.classList.add('lightbox-open');
+      document.body.style.top = '-' + scrollY + 'px';
       lightbox.classList.add('open');
-      document.body.style.overflow = 'hidden';
+      lightbox.setAttribute('aria-hidden', 'false');
     }
 
     function closeLightbox() {
       lightbox.classList.remove('open');
-      document.body.style.overflow = '';
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('lightbox-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollY);
+      lightboxImg.removeAttribute('src');
     }
 
     document.querySelectorAll('[data-lightbox]').forEach(function (el) {
